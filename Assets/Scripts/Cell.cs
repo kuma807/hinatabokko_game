@@ -8,8 +8,8 @@ public class Cell
     public int y;
     public int enemyNumber;
     public int index;
-    int[] next_index;
-    int[] prev_index;
+    public int[] next_index;
+    public int[] prev_index;
 
     public Cell(int _x, int _y, int _enemyNumber, int _index)
     {
@@ -22,6 +22,6 @@ public class Cell
 
     public void DisplayInfo()
     {
-        Debug.Log("Cell coordination: (" + x + ", " + y + ")" + ", enemyNumber: " + enemyNumber);
+        UnityEngine.Debug.Log("Cell coordination: (" + x + ", " + y + ")" + ", enemyNumber: " + enemyNumber);
     }
 }

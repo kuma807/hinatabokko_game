@@ -18,6 +18,6 @@ public class Stage
 
     public void DisplayInfo()
     {
-        Debug.Log(this);
+        UnityEngine.Debug.Log(this);
     }
 }

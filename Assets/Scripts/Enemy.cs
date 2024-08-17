@@ -18,7 +18,7 @@ public class Enemy
 
     public void DisplayInfo()
     {
-        Debug.Log(this);
+        UnityEngine.Debug.Log(this);
     }
 }
 

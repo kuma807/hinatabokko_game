@@ -16,6 +16,6 @@ public class Inventory
 
     public void DisplayInfo()
     {
-        Debug.Log(this);
+        UnityEngine.Debug.Log(this);
     }
 }

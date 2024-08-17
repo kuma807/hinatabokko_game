@@ -1,9 +1,9 @@
 using System;
 
-namespace GMTKGameJam.Scripts;
+namespace GMTKGameJam {
 public abstract class Effect
 {
-    public abstract void effect(ref Board board, ref Cell cell)
+    public abstract void effect(ref Board board, ref Cell cell);
 }
 
 public class BackEffect : Effect
@@ -53,4 +53,5 @@ public class StopEffect : Effect
 
         return res;
     }
+}
 }

@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
             {
                 if (board[i].enemies[j].count != 0)
                 {
-                    GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemies[j].index], new Vector3(board[i].x, board[i].y + (float)(0.3 - 0.3 * board[i].enemies[j].index), 0), Quaternion.identity);
+                    GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemies[j].id], new Vector3(board[i].x, board[i].y + (float)(0.3 - 0.3 * board[i].enemies[j].id), 0), Quaternion.identity);
                     TextMeshProUGUI textMeshPro = enemyInstance.GetComponentInChildren<TextMeshProUGUI>();
                     if (textMeshPro != null)
                     {

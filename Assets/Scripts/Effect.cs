@@ -1,5 +1,7 @@
 using System;
 
+namespace GMTKGameJam.Scripts;
+
 public abstract class Effect {
     public abstract void effect()
 }

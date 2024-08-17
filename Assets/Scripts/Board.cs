@@ -8,9 +8,9 @@ namespace GMTKGameJam.Scripts;
 [System.Diagnostics.DebuggerDisplay("cells: {cells}")]
 public class Board
 {
-    public []Cell cells;
+    public Cell[] cells;
 
-    public Board([] Cell _cells)
+    public Board(Cell[] _cells)
     {
         cells = _cells;
     }

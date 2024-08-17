@@ -8,7 +8,7 @@ namespace GMTKGameJam.Scripts;
 [System.Diagnostics.DebuggerDisplay("effect: {effect}")]
 public class Card
 {
-    public Effect effect
+    public Effect effect;
 
     public Card(Effect _effect)
     {

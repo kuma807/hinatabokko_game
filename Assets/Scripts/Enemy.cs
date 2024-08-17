@@ -20,3 +20,7 @@ public class Enemy
         Debug.Log(this);
     }
 }
+
+public class Enemies {
+    
+}

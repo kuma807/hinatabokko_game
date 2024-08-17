@@ -8,6 +8,8 @@ public class Cell
     public int y;
     public int enemyNumber;
     public int index;
+    int[] next_index;
+    int[] prev_index;
 
     public Cell(int _x, int _y, int _enemyNumber, int _index)
     {
@@ -15,6 +17,7 @@ public class Cell
         y = _y;
         enemyNumber = _enemyNumber;
         index = _index;
+        // calculate next_index, prev_index
     }
 
     public void DisplayInfo()

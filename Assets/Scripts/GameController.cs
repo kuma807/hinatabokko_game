@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject enemyObject;
+    public GameObject[] enemyObjects;
     private Stage stage;
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
 
@@ -14,7 +14,8 @@ public class GameController : MonoBehaviour
     {
         List<Enemy> enemies = new List<Enemy>() 
         {
-            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6})
+            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0),
+            new Enemy(2, new List<int>{1}, 1)
         };
         Board board = new Board()
         {
@@ -92,7 +93,16 @@ public class GameController : MonoBehaviour
             {
                 if (board[i].enemies[j].count != 0)
                 {
-                    GameObject enemyInstance = Instantiate(enemyObject, new Vector3(board[i].x, board[i].y, 0), Quaternion.identity);
+                    GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemies[j].index], new Vector3(board[i].x, board[i].y + (float)(0.3 - 0.3 * board[i].enemies[j].index), 0), Quaternion.identity);
+                    TextMeshProUGUI textMeshPro = enemyInstance.GetComponentInChildren<TextMeshProUGUI>();
+                    if (textMeshPro != null)
+                    {
+                        textMeshPro.text = board[i].enemies[j].count.ToString();  // テキストを更新
+                    }
+                    else
+                    {
+                        Debug.LogWarning("TextMeshProUGUI component not found in the prefab's children.");
+                    }
                     instantiatedEnemies.Add(enemyInstance);
                 }
             }

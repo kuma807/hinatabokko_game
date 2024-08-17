@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace GMTKGameJam.Scripts;
 
 [System.Diagnostics.DebuggerDisplay("count: {count}, dice: {dice}")]
 public class Enemy

@@ -1,9 +1,7 @@
 using System;
-
-namespace GMTKGameJam {
 public abstract class Effect
 {
-    public abstract void effect(ref Board board, ref Cell cell);
+    public abstract double[] effect(ref Board board, ref Cell cell);
 }
 
 public class BackEffect : Effect
@@ -40,7 +38,7 @@ public class StopEffect : Effect
     double stop;
     // enemy stops w.p. stop / (stop + 1)
 
-    public override void effect(ref Board board, ref Cell cell)
+    public override double[] effect(ref Board board, ref Cell cell)
     {
         const int size = board.size();
         double[] res = new double[size];
@@ -53,5 +51,4 @@ public class StopEffect : Effect
 
         return res;
     }
-}
 }

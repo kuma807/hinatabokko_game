@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace GMTKGameJam.Scripts;
+
 public class GameController : MonoBehaviour
 {
     private Cell[] board;

@@ -4,15 +4,15 @@ using System.Diagnostics;
 using UnityEngine;
 
 
-[System.Diagnostics.DebuggerDisplay("ememies: {ememies}")]
+[System.Diagnostics.DebuggerDisplay("enemies: {enemies}")]
 public class Stage
 {
-    public List<Enemy> ememies;
+    public List<Enemy> enemies;
     public Board board;
 
-    public Stage(List<Enemy> _ememies, Board _board)
+    public Stage(List<Enemy> _enemies, Board _board)
     {
-        ememies = _ememies;
+        enemies = _enemies;
         board = _board;
     }
 

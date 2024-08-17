@@ -46,7 +46,7 @@ public class StopEffect : Effect
         double[] res = new double[size];
 
         res[cell.index] = stop / (stop + 1);
-        foreach (int next: cell.next_index)
+        foreach (int next in cell.next_index)
         {
             res[next] += 1 / (next_index.size()) * (1 / (stop + 1));
         }

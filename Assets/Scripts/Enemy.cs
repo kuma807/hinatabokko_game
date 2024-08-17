@@ -8,9 +8,9 @@ using UnityEngine;
 public class Enemy
 {
     public int count;
-    public int[] dice;
+    public List<int> dice;
 
-    public Enemy(int _count, int[] _dice)
+    public Enemy(int _count, List<int> _dice)
     {
         count = _count;
         dice = _dice;

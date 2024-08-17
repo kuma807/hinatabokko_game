@@ -7,10 +7,10 @@ using UnityEngine;
 [System.Diagnostics.DebuggerDisplay("ememies: {ememies}")]
 public class Stage
 {
-    public Enemy[] ememies;
+    public List<Enemy> ememies;
     public Board board;
 
-    public Stage(Enemy[] _ememies, Board _board)
+    public Stage(List<Enemy> _ememies, Board _board)
     {
         ememies = _ememies;
         board = _board;

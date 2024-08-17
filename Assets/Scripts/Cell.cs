@@ -8,8 +8,8 @@ public class Cell
     public int y;
     public int enemyNumber;
     public int index;
-    public int[] next_index;
-    public int[] prev_index;
+    public List<int> next_index;
+    public List<int> prev_index;
 
     public Cell(int _x, int _y, int _enemyNumber, int _index)
     {

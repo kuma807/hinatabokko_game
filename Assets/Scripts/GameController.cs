@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    private Board board;
-    public GameObject enemy;
+    public GameObject enemyObject;
+    private Stage stage;
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        board = new Board()
+        Board board = new Board()
         {
             new Cell(0, 0, 1, 0),
             new Cell(2, 0, 0, 1),
@@ -20,7 +20,12 @@ public class GameController : MonoBehaviour
             new Cell(6, 0, 0, 3),
             new Cell(8, 0, 0, 4)
         };
-        DrawEnemy();
+        List<Enemy> enemies = new List<Enemy>() 
+        {
+            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6})
+        };
+        stage = new Stage(enemies, board);
+        DrawEnemy(ref stage.board);
     }
 
     // Update is called once per frame
@@ -34,6 +39,13 @@ public class GameController : MonoBehaviour
 
     void UpdateTurn()
     {
+        MoveEnemies(ref stage.board);
+        DrawEnemy(ref stage.board);
+    }
+
+    // 将来的にはEffectとかでこの処理を行うべき
+    void MoveEnemies(ref Board board)
+    {
         board[board.Count - 1].enemyNumber += board[board.Count - 2].enemyNumber;
         for (int i = board.Count - 3; i >= 0; i--)
         {
@@ -46,16 +58,15 @@ public class GameController : MonoBehaviour
             outputString += " " + board[i].enemyNumber + ",";
         }
         Debug.Log(outputString);
-        DrawEnemy();
     }
 
-    void DrawEnemy()
+    void DrawEnemy(ref Board board)
     {
-        foreach (GameObject enemy in instantiatedEnemies)
+        foreach (GameObject enemyInstance in instantiatedEnemies)
         {
-            if (enemy != null)
+            if (enemyInstance != null)
             {
-                Destroy(enemy);
+                Destroy(enemyInstance);
             }
         }
         instantiatedEnemies.Clear();
@@ -63,7 +74,7 @@ public class GameController : MonoBehaviour
         {
             if (board[i].enemyNumber != 0)
             {
-                GameObject enemyInstance = Instantiate(enemy, new Vector3(board[i].x, board[i].y, 0), Quaternion.identity);
+                GameObject enemyInstance = Instantiate(enemyObject, new Vector3(board[i].x, board[i].y, 0), Quaternion.identity);
                 instantiatedEnemies.Add(enemyInstance);
             }
         }

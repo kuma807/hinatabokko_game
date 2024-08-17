@@ -12,17 +12,17 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Board board = new Board()
-        {
-            new Cell(0, 0, 1, 0),
-            new Cell(2, 0, 0, 1),
-            new Cell(4, 0, 0, 2),
-            new Cell(6, 0, 0, 3),
-            new Cell(8, 0, 0, 4)
-        };
         List<Enemy> enemies = new List<Enemy>() 
         {
             new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6})
+        };
+        Board board = new Board()
+        {
+            new Cell(0, 0, enemies, 0),
+            new Cell(2, 0, new List<Enemy>(), 1),
+            new Cell(4, 0, new List<Enemy>(), 2),
+            new Cell(6, 0, new List<Enemy>(), 3),
+            new Cell(8, 0, new List<Enemy>(), 4)
         };
         stage = new Stage(enemies, board);
         DrawEnemy(ref stage.board);
@@ -46,16 +46,32 @@ public class GameController : MonoBehaviour
     // 将来的にはEffectとかでこの処理を行うべき
     void MoveEnemies(ref Board board)
     {
-        board[board.Count - 1].enemyNumber += board[board.Count - 2].enemyNumber;
+        for (int i = 0; i < board[board.Count - 2].enemies.Count; i++) 
+        {
+            bool foundSameType = false;
+            for (int j = 0; j < board[board.Count - 1].enemies.Count; j++)
+            {
+                if (board[board.Count - 2].enemies[i].dice == board[board.Count - 1].enemies[j].dice)
+                {
+                    foundSameType = true;
+                    board[board.Count - 1].enemies[j].count += board[board.Count - 2].enemies[i].count;
+                }
+            }
+            if (!foundSameType)
+            {
+                board[board.Count - 1].enemies.Add(board[board.Count - 2].enemies[i]);
+            }
+        }
         for (int i = board.Count - 3; i >= 0; i--)
         {
-            board[i + 1].enemyNumber = board[i].enemyNumber;
+            board[i + 1].enemies = board[i].enemies;
         }
-        board[0].enemyNumber = 0;
+        board[0].enemies = new List<Enemy>();
         string outputString = "Board";
         for (int i = 0; i < board.Count; i++)
         {
-            outputString += " " + board[i].enemyNumber + ",";
+            for (int j = 0; j < board[i].enemies.Count; j++)
+            outputString += " " + board[i].enemies[j].count + ",";
         }
         Debug.Log(outputString);
     }
@@ -72,10 +88,13 @@ public class GameController : MonoBehaviour
         instantiatedEnemies.Clear();
         for (int i = 0; i < board.Count; i++)
         {
-            if (board[i].enemyNumber != 0)
+            for (int j = 0; j < board[i].enemies.Count; j++)
             {
-                GameObject enemyInstance = Instantiate(enemyObject, new Vector3(board[i].x, board[i].y, 0), Quaternion.identity);
-                instantiatedEnemies.Add(enemyInstance);
+                if (board[i].enemies[j].count != 0)
+                {
+                    GameObject enemyInstance = Instantiate(enemyObject, new Vector3(board[i].x, board[i].y, 0), Quaternion.identity);
+                    instantiatedEnemies.Add(enemyInstance);
+                }
             }
         }
     }

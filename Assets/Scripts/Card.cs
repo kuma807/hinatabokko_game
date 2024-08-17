@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace GMTKGameJam.Scripts
-{
-    
+
 [System.Diagnostics.DebuggerDisplay("effect: {effect}")]
 public class Card
 {
@@ -20,5 +18,4 @@ public class Card
     {
         Debug.Log(this);
     }
-}
 }

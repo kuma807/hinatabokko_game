@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.U2D.IK;
 
 public static class GameCalculater
 {
@@ -25,9 +27,51 @@ public static class GameCalculater
         return res;
     }
 
+    public static List<List<double>> product(List<List<double>> A, List<List<double>> B)
+    {
+        Debug.Assert(A[0].Count == B.Count);
+        var C = new List<List<double>>(A.Count);
+        for (int i = 0; i < A.Count; i++) C[i] = new List<double>(B[0].Count);
+        for (int k = 0; k < A[0].Count; k++)
+        {
+            for (int i = 0; i < A.Count; i++)
+            {
+                for (int j = 0; j < B[0].Count; j++)
+                {
+                    C[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+        return C;
+    }
+
     //Tターン後の遷移確率を行列累乗で計算
     public static List<List<double>> updateTurn(List<List<double>> prob, long turn)
     {
-        return null;
+        var res = new List<List<double>>(prob.Count);
+        for (int i = 0; i < prob.Count; i++)
+        {
+            res[i] = new List<double>(prob.Count);
+            res[i][i] = 1;
+        }
+        while (turn > 1) {
+            if ((turn & 1) == 1)
+            {
+                res = product(res, prob);
+            }
+            prob = product(prob, prob);
+            turn >>= 1;
+        }
+        return res;
+    }
+
+    public static List<double> Act(ref List<List<double>> A, List<double> x)
+    {
+        Debug.Assert(A[0].Count == x.Count);
+        var tmp_vec = new List<List<double>>(x.Count);
+        for (int i = 0; i < x.Count; i++) tmp_vec[i].Add(x[i]);
+        tmp_vec = product(A, tmp_vec);
+        for (int i = 0; i < x.Count; i++) x[i] = tmp_vec[i][0];
+        return x;
     }
 }

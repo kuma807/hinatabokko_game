@@ -70,7 +70,7 @@ public static class GameCalculater
     }
 
     //Tターン後の遷移確率を行列累乗で計算
-    public static List<List<double>> updateTurn(List<List<double>> prob, long turn)
+    public static List<List<double>> updateTurn(List<List<double>> prob, BigInteger turn)
     {
         var res = new List<List<double>>(prob.Count);
         for (int i = 0; i < prob.Count; i++)

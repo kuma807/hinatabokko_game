@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     {
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
+        GameRenderer.Instance.UpdateCell(ref board);
         GameRenderer.Instance.UpdateEnemy(ref board);
     }
 

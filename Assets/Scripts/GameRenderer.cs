@@ -8,6 +8,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
+    public GameObject cellObject;
     
     private void Awake()
     {
@@ -20,6 +21,14 @@ public class GameRenderer : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void UpdateCell(ref Board board)
+    {
+        for (int i = 0; i < board.Count; i++)
+        {
+            Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
         }
     }
 

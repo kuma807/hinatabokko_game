@@ -9,6 +9,7 @@ using System.Numerics;
 public class GameController : MonoBehaviour
 {
     private Stage stage;
+    private bool wavesStart = false;
     private int wave_num = 0;
     private Board board;
     private int turn = 0;
@@ -20,13 +21,17 @@ public class GameController : MonoBehaviour
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
         GameRenderer.Instance.CreateCell(ref board);
-        GameRenderer.Instance.UpdateEnemy(ref board);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && wave_num < stage.waves.Count)
+
+    }
+
+    void UpdateTurn()
+    {
+        if (wave_num < stage.waves.Count)
         {
             if (turn == stage.enemies[wave_num].turn)
             {
@@ -38,18 +43,18 @@ public class GameController : MonoBehaviour
                     GameRenderer.Instance.UpdateEnemy(ref board);
                 }
             }
-            else 
+            else
             {
-                UpdateTurn();
+                MoveEnemies(ref board);
+                GameRenderer.Instance.UpdateEnemy(ref board);
+                turn += 1;
             }
         }
-    }
-
-    void UpdateTurn()
-    {
-        MoveEnemies(ref board);
-        GameRenderer.Instance.UpdateEnemy(ref board);
-        turn += 1;
+        else
+        {
+            CancelInvoke("UpdateTurn");
+            GameRenderer.Instance.DeleteEnemy();
+        }
     }
 
     // 将来的にはEffectとかでこの処理を行うべき
@@ -73,5 +78,11 @@ public class GameController : MonoBehaviour
             outputString += " " + board[i].enemy.count + ",";
         }
         Debug.Log(outputString);
+    }
+
+    public void SetWavesStart(bool _wavesStart)
+    {
+        wavesStart = _wavesStart;
+        InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 }

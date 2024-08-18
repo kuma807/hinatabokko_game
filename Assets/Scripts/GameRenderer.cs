@@ -35,7 +35,7 @@ public class GameRenderer : MonoBehaviour
         }
     }
 
-    public void UpdateEnemy(ref Board board) 
+    public void DeleteEnemy()
     {
         foreach (GameObject enemyInstance in instantiatedEnemies)
         {
@@ -45,6 +45,22 @@ public class GameRenderer : MonoBehaviour
             }
         }
         instantiatedEnemies.Clear();
+        for (int i = 0; i < instantiatedCells.Count; i++)
+        {
+            TextMeshProUGUI[] textComponents = instantiatedCells[i].GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach (TextMeshProUGUI tmp in textComponents)
+            {
+                if (tmp.gameObject.name == "NumberText")
+                {
+                    tmp.text = "0";
+                    break;
+                }
+            }
+        }
+    }
+
+    public void CreateEnemy(ref Board board)
+    {
         for (int i = 0; i < board.Count; i++)
         {
             if (board[i].enemy.count != 0)
@@ -68,5 +84,11 @@ public class GameRenderer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void UpdateEnemy(ref Board board) 
+    {
+        DeleteEnemy();
+        CreateEnemy(ref board);
     }
 }

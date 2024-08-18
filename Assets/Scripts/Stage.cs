@@ -9,11 +9,12 @@ public class Stage
 {
     public List<Enemy> enemies;
     public Board board;
-
+    
     public Stage(List<Enemy> _enemies, Board _board)
     {
         enemies = _enemies;
         board = _board;
+        
     }
 
     public void DisplayInfo()

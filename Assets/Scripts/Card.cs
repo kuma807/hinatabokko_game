@@ -20,7 +20,7 @@ public class Card : MonoBehaviour
     private void Start()
     {
         highlightColor = Color.yellow;
-        originalColor = Color.black;
+        originalColor = new Color(0,0,0,0);
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = originalColor;
     }

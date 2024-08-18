@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.U2D.IK;
@@ -79,13 +81,20 @@ public static class GameCalculater
             }
         }
         for (int i = 0; i < prob.Count; i++) res[i][i] = 1;
-        while (turn > 1) {
+        while (turn > 0)
+        {
             if ((turn & 1) == 1)
             {
-                res = product(res, prob);
+                res = product(prob, res);
             }
             prob = product(prob, prob);
             turn >>= 1;
+        }
+        for (int j = 0; j < res.Count; j++)
+        {
+            double sum = 0;
+            for (int i = 0; i < res.Count; i++) sum += res[i][j];
+            Debug.Assert(Math.Abs(sum - 1) < 1e-5);
         }
         return res;
     }

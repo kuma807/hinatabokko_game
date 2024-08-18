@@ -42,9 +42,10 @@ public class NullRollDiceEffect : RollDiceEffect
 public class BackEffect : StepOnEffect
 {
     int back;
-    public BackEffect()
+    public BackEffect(int _back)
     {
         this.id = 1;
+        back = _back;
     }
 
     public override List<double> effect(Board board, Cell cell, Enemy enemy)
@@ -75,9 +76,10 @@ public class BackEffect : StepOnEffect
 public class StopEffect : RollDiceEffect
 {
     double stop;
-    public StopEffect()
+    public StopEffect(double _stop)
     {
         this.id = 2;
+        stop = _stop;
     }
     // enemy stops w.p. stop / (stop + 1)
 

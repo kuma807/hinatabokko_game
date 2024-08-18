@@ -20,7 +20,7 @@ public static class GameCalculater
             {
                 if (i == cell.index) continue;
                 var v2 = board[i].step_on_effect.effect(board, board[i], enemy);
-                for (int j = 0; i < n; j++) res[j][cell.index] += v1[i] * v2[j];
+                for (int j = 0; j < n; j++) res[j][cell.index] += v1[i] * v2[j];
             }
         }
 

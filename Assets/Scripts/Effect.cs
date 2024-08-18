@@ -2,18 +2,15 @@ using System;
 using System.Collections.Generic;
 public abstract class Effect
 {
-    public abstract List<double> effect(ref Board board, ref Cell cell);
+    public abstract List<double> effect(Board board, Cell cell, Enemy enemy);
     public int id;
 }
 
-public class NoEffect : Effect
-{
-    public NoEffect()
-    {
-        this.id = 0;
-    }
+public abstract class StepOnEffect: Effect {}
+public abstract class RollDiceEffect: Effect {}
 
-    public override List<double> effect(ref Board board, ref Cell cell)
+public class NullStepOnEffect: StepOnEffect {
+        public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
@@ -22,7 +19,24 @@ public class NoEffect : Effect
     }
 }
 
-public class BackEffect : Effect
+public class NullRollDiceEffect : RollDiceEffect
+{
+    public NullRollDiceEffect()
+    {
+        this.id = 0;
+    }
+
+    public override List<double> effect(Board board, Cell cell, Enemy enemy)
+    {
+        int size = board.Count;
+        List<double> res = new List<double>(size);
+        res[cell.index] = 1;
+        return res;
+    }
+}
+
+
+public class BackEffect : StepOnEffect
 {
     int back;
     public BackEffect()
@@ -30,7 +44,7 @@ public class BackEffect : Effect
         this.id = 1;
     }
 
-    public override List<double> effect(ref Board board, ref Cell cell)
+    public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
@@ -55,7 +69,7 @@ public class BackEffect : Effect
     }
 }
 
-public class StopEffect : Effect
+public class StopEffect : RollDiceEffect
 {
     double stop;
     public StopEffect()
@@ -64,7 +78,7 @@ public class StopEffect : Effect
     }
     // enemy stops w.p. stop / (stop + 1)
 
-    public override List<double> effect(ref Board board, ref Cell cell)
+    public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
@@ -72,7 +86,7 @@ public class StopEffect : Effect
         res[cell.index] = stop / (stop + 1);
         foreach (int next in cell.next_index)
         {
-            res[next] += 1 / (cell.next_index.Count) * (1 / (stop + 1));
+            res[next] += 1 / cell.next_index.Count * (1 / (stop + 1));
         }
 
         return res;

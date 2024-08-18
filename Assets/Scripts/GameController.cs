@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GameController : MonoBehaviour
 {
@@ -19,11 +20,11 @@ public class GameController : MonoBehaviour
         };
         Board board = new Board()
         {
-            new Cell(0, 0, enemies, 0, new NoEffect()),
-            new Cell(2, 0, new List<Enemy>(), 1, new NoEffect()),
-            new Cell(4, 0, new List<Enemy>(), 2, new NoEffect()),
-            new Cell(6, 0, new List<Enemy>(), 3, new NoEffect()),
-            new Cell(8, 0, new List<Enemy>(), 4, new NoEffect())
+            new Cell(0, 0, enemies, 0, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(2, 0, enemies, 1, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(4, 0, enemies, 2, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(6, 0, enemies, 3, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(8, 0, enemies, 4, new NullStepOnEffect(), new NullRollDiceEffect()),
         };
         stage = new Stage(enemies, board);
         DrawEnemy(ref stage.board);

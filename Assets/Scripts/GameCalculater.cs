@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -93,17 +94,22 @@ public static class GameCalculater
         return res;
     }
 
-    public static List<double> Act(ref List<List<double>> A, List<double> x)
+    public static List<BigInteger> Act(ref List<List<double>> A, List<BigInteger> x)
     {
         Debug.Assert(A[0].Count == x.Count);
         var tmp_vec = new List<List<double>>(x.Count);
         for (int i = 0; i < x.Count; i++)
         {
             tmp_vec.Add(new List<double>(1));
-            tmp_vec[i].Add(x[i]);
+            tmp_vec[i].Add((double)x[i]);
         }
+        BigInteger s = 0, s2 = 0;
         tmp_vec = product(A, tmp_vec);
-        for (int i = 0; i < x.Count; i++) x[i] = tmp_vec[i][0];
+        for (int i = 0; i < x.Count; i++) {
+            s += x[i];
+            x[i] = (BigInteger)tmp_vec[i][0];
+            s2 += x[i];
+        }
         return x;
     }
 }

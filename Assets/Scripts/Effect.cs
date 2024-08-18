@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 public abstract class Effect
 {
     public abstract List<double> effect(Board board, Cell cell, Enemy enemy);
@@ -98,6 +99,23 @@ public class StopEffect : RollDiceEffect
             res[Math.Min(size - 1, cell.index + next)] += 1.0 / enemy.dice.Count * (1 / (stop + 1));
         }
 
+        return res;
+    }
+}
+
+public class DeathEffect: StepOnEffect
+{
+    double death_probability;
+    // enemy will be dead w.p. death_probability, be alive w.p. 1 - death_probability
+    public DeathEffect(double _death_probability)
+    {
+        death_probability = _death_probability;
+    }
+    public override List<double> effect(Board board, Cell cell, Enemy enemy)
+    {
+        var res = new List<double>(board.Count);
+        for (int i = 0; i < board.Count; i++) res.Add(0);
+        res[cell.index] = Math.Max(0, 1 - death_probability);
         return res;
     }
 }

@@ -27,24 +27,23 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            if (turn == stage.enemies[wave_num].turn)
+            {
+                turn = 0;
+                wave_num += 1;
+                if (wave_num >= stage.waves.Count)
+                {
+                    board = new Board();
+                }
+                else
+                {
+                    board = stage.waves[wave_num];
+                }
+                GameRenderer.Instance.UpdateEnemy(ref board);
+            }
             if (wave_num < stage.waves.Count)
             {
                 UpdateTurn();
-                if (turn == stage.enemies[wave_num].turn)
-                {
-                    turn = 0;
-                    wave_num += 1;
-                    if (wave_num >= stage.waves.Count)
-                    {
-                        board = new Board();
-                    }
-                    else
-                    {
-                        board = stage.waves[wave_num];
-                    }
-
-                    GameRenderer.Instance.UpdateEnemy(ref board);
-                }
             }
         }
     }

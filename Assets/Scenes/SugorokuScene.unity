@@ -742,8 +742,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObjects:
-  - {fileID: 8739538750934687283, guid: 4749a90bd209f45159a9556674ace470, type: 3}
-  - {fileID: 8395604530317226641, guid: f645a5dfd2889475c90fb8b1ee587465, type: 3}
+  - {fileID: 8838440887609812320, guid: 88835aba1594a4a78bcf58a094a3c189, type: 3}
+  - {fileID: 4371625213361373828, guid: 52506039cc9b543dab53fb28f257cf30, type: 3}
+  wave: 0
 --- !u!4 &1289276356
 Transform:
   m_ObjectHideFlags: 0

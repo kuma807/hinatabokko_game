@@ -51,3 +51,9 @@ TagManager:
   - name: UI
     uniqueID: 2103059063
     locked: 0
+  - name: Inventory
+    uniqueID: 637887169
+    locked: 0
+  - name: Card
+    uniqueID: 236534623
+    locked: 0

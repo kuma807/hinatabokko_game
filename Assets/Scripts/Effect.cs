@@ -3,11 +3,32 @@ using System.Collections.Generic;
 public abstract class Effect
 {
     public abstract List<double> effect(ref Board board, ref Cell cell);
+    public int id;
+}
+
+public class NoEffect : Effect
+{
+    public NoEffect()
+    {
+        this.id = 0;
+    }
+
+    public override List<double> effect(ref Board board, ref Cell cell)
+    {
+        int size = board.Count;
+        List<double> res = new List<double>(size);
+        res[cell.index] = 1;
+        return res;
+    }
 }
 
 public class BackEffect : Effect
 {
     int back;
+    public BackEffect()
+    {
+        this.id = 1;
+    }
 
     public override List<double> effect(ref Board board, ref Cell cell)
     {
@@ -37,6 +58,10 @@ public class BackEffect : Effect
 public class StopEffect : Effect
 {
     double stop;
+    public StopEffect()
+    {
+        this.id = 2;
+    }
     // enemy stops w.p. stop / (stop + 1)
 
     public override List<double> effect(ref Board board, ref Cell cell)

@@ -10,13 +10,15 @@ public class Cell
     public int index;
     public List<int> next_index;
     public List<int> prev_index;
+    public Effect effect;
 
-    public Cell(int _x, int _y, List<Enemy> _enemies, int _index)
+    public Cell(int _x, int _y, List<Enemy> _enemies, int _index, Effect _effect)
     {
         x = _x;
         y = _y;
         enemies = _enemies;
         index = _index;
+        effect = _effect;
         // calculate next_index, prev_index
     }
 

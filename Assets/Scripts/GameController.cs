@@ -19,11 +19,11 @@ public class GameController : MonoBehaviour
         };
         Board board = new Board()
         {
-            new Cell(0, 0, enemies, 0),
-            new Cell(2, 0, new List<Enemy>(), 1),
-            new Cell(4, 0, new List<Enemy>(), 2),
-            new Cell(6, 0, new List<Enemy>(), 3),
-            new Cell(8, 0, new List<Enemy>(), 4)
+            new Cell(0, 0, enemies, 0, new NoEffect()),
+            new Cell(2, 0, new List<Enemy>(), 1, new NoEffect()),
+            new Cell(4, 0, new List<Enemy>(), 2, new NoEffect()),
+            new Cell(6, 0, new List<Enemy>(), 3, new NoEffect()),
+            new Cell(8, 0, new List<Enemy>(), 4, new NoEffect())
         };
         stage = new Stage(enemies, board);
         DrawEnemy(ref stage.board);

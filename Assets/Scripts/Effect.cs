@@ -14,6 +14,7 @@ public class NullStepOnEffect: StepOnEffect {
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
+        for (int i = 0; i < size; i++) res.Add(0);
         res[cell.index] = 1;
         return res;
     }
@@ -30,6 +31,7 @@ public class NullRollDiceEffect : RollDiceEffect
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
+        for (int i = 0; i < size; i++) res.Add(0);
         foreach (int next in enemy.dice)
         {
             res[Math.Min(size - 1, cell.index + next)] += 1.0 / enemy.dice.Count;
@@ -52,6 +54,7 @@ public class BackEffect : StepOnEffect
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
+        for (int i = 0; i < size; i++) res.Add(0);
         res[cell.index] = 1;
 
         for (int i = 0; i < back; i++)
@@ -87,6 +90,7 @@ public class StopEffect : RollDiceEffect
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
+        for (int i = 0; i < size; i++) res.Add(0);
 
         res[cell.index] = stop / (stop + 1);
         foreach (int next in enemy.dice)

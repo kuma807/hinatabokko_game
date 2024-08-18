@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.U2D.IK;
@@ -11,15 +13,29 @@ public static class GameCalculater
     {
         int n = board.Count;
         var res = new List<List<double>>(n);
-        for (int i = 0; i < n; i++) res[i] = new List<double>(n);
+        for (int i = 0; i < n; i++)
+        {
+            res.Add(new List<double>(n));
+            for (int j = 0; j < n; j++)
+            {
+                res[i].Add(0);
+            }
+        }
 
         foreach (Cell cell in board)
         {
             var v1 = cell.roll_dice_effect.effect(board, cell, enemy);
             for (int i = 0; i < n; i++)
             {
-                if (i == cell.index) continue;
                 var v2 = board[i].step_on_effect.effect(board, board[i], enemy);
+                if (i == cell.index)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (i == j) v2[j] = 1;
+                        else v2[j] = 0;
+                    }
+                }
                 for (int j = 0; j < n; j++) res[j][cell.index] += v1[i] * v2[j];
             }
         }
@@ -31,7 +47,14 @@ public static class GameCalculater
     {
         Debug.Assert(A[0].Count == B.Count);
         var C = new List<List<double>>(A.Count);
-        for (int i = 0; i < A.Count; i++) C[i] = new List<double>(B[0].Count);
+        for (int i = 0; i < A.Count; i++)
+        {
+            C.Add(new List<double>(B[0].Count));
+            for (int j = 0; j < B[0].Count; j++)
+            {
+                C[i].Add(0);
+            }
+        }
         for (int k = 0; k < A[0].Count; k++)
         {
             for (int i = 0; i < A.Count; i++)
@@ -51,16 +74,27 @@ public static class GameCalculater
         var res = new List<List<double>>(prob.Count);
         for (int i = 0; i < prob.Count; i++)
         {
-            res[i] = new List<double>(prob.Count);
-            res[i][i] = 1;
+            res.Add(new List<double>(prob.Count));
+            for (int j = 0; j < prob.Count; j++)
+            {
+                res[i].Add(0);
+            }
         }
-        while (turn > 1) {
+        for (int i = 0; i < prob.Count; i++) res[i][i] = 1;
+        while (turn > 0)
+        {
             if ((turn & 1) == 1)
             {
-                res = product(res, prob);
+                res = product(prob, res);
             }
             prob = product(prob, prob);
             turn >>= 1;
+        }
+        for (int j = 0; j < res.Count; j++)
+        {
+            double sum = 0;
+            for (int i = 0; i < res.Count; i++) sum += res[i][j];
+            Debug.Assert(Math.Abs(sum - 1) < 1e-5);
         }
         return res;
     }
@@ -69,7 +103,11 @@ public static class GameCalculater
     {
         Debug.Assert(A[0].Count == x.Count);
         var tmp_vec = new List<List<double>>(x.Count);
-        for (int i = 0; i < x.Count; i++) tmp_vec[i].Add(x[i]);
+        for (int i = 0; i < x.Count; i++)
+        {
+            tmp_vec.Add(new List<double>(1));
+            tmp_vec[i].Add(x[i]);
+        }
         tmp_vec = product(A, tmp_vec);
         for (int i = 0; i < x.Count; i++) x[i] = tmp_vec[i][0];
         return x;

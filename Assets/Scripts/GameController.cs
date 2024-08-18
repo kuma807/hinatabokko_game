@@ -8,41 +8,20 @@ using System.Numerics;
 
 public class GameController : MonoBehaviour
 {
-    
     private Stage stage;
-    public int wave_num = 0;
+    private int wave_num = 0;
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
+    private Board board;
+    private int turn = 0;
+
     public List<GameObject> enemyObjects;
-    public List<Board> waves;
-    public Board board;
-    public int turn = 0;
+    public string stageName;
 
     // Start is called before the first frame update
     void Start()
     {
-        List<Enemy> enemies = new List<Enemy>()
-        {
-            new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3),
-            new Enemy(5, new List<int>{1}, 1, 5)
-        };
-        waves = new List<Board>()
-        {
-            new Board{
-                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 0),
-                new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 1),
-                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2),
-                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3),
-                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4),
-            },
-            new Board{
-                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 0),
-                new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 1),
-                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 2),
-                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 3),
-                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 4),
-            },
-        };
-        stage = new Stage(enemies, waves);
+        
+        stage = new Stage(stageName);
         board = stage.waves[wave_num];
         DrawEnemy(ref board);
     }
@@ -52,21 +31,24 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            UpdateTurn();
-            if (wave_num < stage.enemies.Count && turn == stage.enemies[wave_num].turn)
+            if (wave_num < stage.waves.Count)
             {
-                turn = 0;
-                wave_num += 1;
-                if (wave_num >= stage.waves.Count)
+                UpdateTurn();
+                if (turn == stage.enemies[wave_num].turn)
                 {
-                    board = new Board();
-                } 
-                else
-                {
-                    board = stage.waves[wave_num];
+                    turn = 0;
+                    wave_num += 1;
+                    if (wave_num >= stage.waves.Count)
+                    {
+                        board = new Board();
+                    }
+                    else
+                    {
+                        board = stage.waves[wave_num];
+                    }
+
+                    DrawEnemy(ref board);
                 }
-                
-                DrawEnemy(ref board);
             }
         }
     }

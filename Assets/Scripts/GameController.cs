@@ -8,28 +8,40 @@ using System.Numerics;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject[] enemyObjects;
+    
     private Stage stage;
-    private List<GameObject> instantiatedEnemies = new List<GameObject>();
     public int wave = 0;
+    private List<GameObject> instantiatedEnemies = new List<GameObject>();
+    public List<GameObject> enemyObjects;
+    public List<Board> waves;
+    public int turn = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         List<Enemy> enemies = new List<Enemy>()
         {
-            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5),
-            new Enemy(2, new List<int>{1}, 1, 5)
+            new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3),
+            new Enemy(5, new List<int>{1}, 1, 5)
         };
-        Board board = new Board()
+        waves = new List<Board>()
         {
-            new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 0, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 1, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Board{
+                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3), 0, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3), 1, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3), 2, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3), 3, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3), 4, new NullStepOnEffect(), new NullRollDiceEffect()),
+            },
+            new Board{
+                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 0, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 1, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3, new NullStepOnEffect(), new NullRollDiceEffect()),
+                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4, new NullStepOnEffect(), new NullRollDiceEffect()),
+            },
         };
-        stage = new Stage(enemies, board);
+        stage = new Stage(enemies, waves[0]);
         DrawEnemy(ref stage.board);
     }
 
@@ -39,6 +51,13 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             UpdateTurn();
+            if (turn == stage.enemies[wave].turn)
+            {
+                turn = 0;
+                wave += 1;
+                stage = new Stage(stage.enemies, waves[wave]);
+                DrawEnemy(ref stage.board);
+            }
         }
     }
 
@@ -46,6 +65,7 @@ public class GameController : MonoBehaviour
     {
         MoveEnemies(ref stage.board);
         DrawEnemy(ref stage.board);
+        turn += 1;
     }
 
     // 将来的にはEffectとかでこの処理を行うべき

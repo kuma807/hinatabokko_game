@@ -30,7 +30,10 @@ public class NullRollDiceEffect : RollDiceEffect
     {
         int size = board.Count;
         List<double> res = new List<double>(size);
-        res[cell.index] = 1;
+        foreach (int next in enemy.dice)
+        {
+            res[Math.Min(size - 1, cell.index + next)] += 1.0 / enemy.dice.Count;
+        }
         return res;
     }
 }
@@ -86,7 +89,7 @@ public class StopEffect : RollDiceEffect
         res[cell.index] = stop / (stop + 1);
         foreach (int next in enemy.dice)
         {
-            res[Math.Min(size - 1, cell.index + next)] += 1 / enemy.dice.Count * (1 / (stop + 1));
+            res[Math.Min(size - 1, cell.index + next)] += 1.0 / enemy.dice.Count * (1 / (stop + 1));
         }
 
         return res;

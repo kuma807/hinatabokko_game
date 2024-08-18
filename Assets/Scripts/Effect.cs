@@ -84,9 +84,9 @@ public class StopEffect : RollDiceEffect
         List<double> res = new List<double>(size);
 
         res[cell.index] = stop / (stop + 1);
-        foreach (int next in cell.next_index)
+        foreach (int next in enemy.dice)
         {
-            res[next] += 1 / cell.next_index.Count * (1 / (stop + 1));
+            res[Math.Min(size - 1, cell.index + next)] += 1 / enemy.dice.Count * (1 / (stop + 1));
         }
 
         return res;

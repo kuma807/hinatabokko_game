@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardController : MonoBehaviour
 {
     public static CardController Instance { get; private set; }
-    private Card selectedCard;
+    public Card selectedCard;
 
     private void Awake()
     {
@@ -33,7 +33,10 @@ public class CardController : MonoBehaviour
         selectedCard = card;
         selectedCard.ApplyHighlight();
     }
-
+    public void RemoveSelect()
+    {
+        selectedCard = null;
+    }
     // Start is called before the first frame update
     void Start()
     {

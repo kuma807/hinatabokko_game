@@ -49,4 +49,5 @@ public class Card : MonoBehaviour
             spriteRenderer.color = originalColor; // 元の色に戻す
         }
     }
+
 }

@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using System;
 
 public class GameRenderer : MonoBehaviour
 {
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
+    private List<GameObject> instantiatedCells = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
@@ -24,11 +26,12 @@ public class GameRenderer : MonoBehaviour
         }
     }
 
-    public void UpdateCell(ref Board board)
+    public void CreateCell(ref Board board)
     {
         for (int i = 0; i < board.Count; i++)
         {
-            Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
+            GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
+            instantiatedCells.Add(instantiatedCell);
         }
     }
 
@@ -51,6 +54,18 @@ public class GameRenderer : MonoBehaviour
                 GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemy.id], new UnityEngine.Vector3(board[i].x, board[i].y + (float)(enemyHight * scale / 2.0) - (float)0.4, 0), UnityEngine.Quaternion.identity);
                 enemyInstance.transform.localScale = new UnityEngine.Vector3(scale, scale, scale);
                 instantiatedEnemies.Add(enemyInstance);
+            }
+        }
+        for (int i = 0; i < instantiatedCells.Count; i++)
+        {
+            TextMeshProUGUI[] textComponents = instantiatedCells[i].GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach (TextMeshProUGUI tmp in textComponents)
+            {
+                if (tmp.gameObject.name == "NumberText")
+                {
+                    tmp.text = board[i].enemy.count.ToString();
+                    break;
+                }
             }
         }
     }

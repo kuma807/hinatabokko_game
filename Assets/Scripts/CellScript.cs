@@ -9,12 +9,14 @@ public class CellScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Sprite BackSprite;
     private Card usedCard;
+    private GameObject popup;
+
     // Start is called before the first frame update
     void Start()
     {
         obj = GameObject.Find("CardController");
+        popup = transform.Find("Popup").gameObject;
         spriteRenderer = GetComponent<SpriteRenderer>();
-
     }
 
     // Update is called once per frame
@@ -57,5 +59,13 @@ public class CellScript : MonoBehaviour
         }
     }
 
-    
+    public void OnMouseEnter()
+    {
+        popup.SetActive(true);
+    }
+
+    public void OnMouseExit()
+    {
+        popup.SetActive(false);
+    }
 }

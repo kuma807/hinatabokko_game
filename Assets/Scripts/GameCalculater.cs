@@ -25,8 +25,15 @@ public static class GameCalculater
             var v1 = cell.roll_dice_effect.effect(board, cell, enemy);
             for (int i = 0; i < n; i++)
             {
-                if (i == cell.index) continue;
                 var v2 = board[i].step_on_effect.effect(board, board[i], enemy);
+                if (i == cell.index)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (i == j) v2[j] = 1;
+                        else v2[j] = 0;
+                    }
+                }
                 for (int j = 0; j < n; j++) res[j][cell.index] += v1[i] * v2[j];
             }
         }

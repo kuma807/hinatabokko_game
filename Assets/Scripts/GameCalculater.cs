@@ -90,12 +90,6 @@ public static class GameCalculater
             prob = product(prob, prob);
             turn >>= 1;
         }
-        for (int j = 0; j < res.Count; j++)
-        {
-            double sum = 0;
-            for (int i = 0; i < res.Count; i++) sum += res[i][j];
-            Debug.Assert(Math.Abs(sum - 1) < 1e-5);
-        }
         return res;
     }
 

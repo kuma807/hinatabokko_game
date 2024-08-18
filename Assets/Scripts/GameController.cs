@@ -10,10 +10,11 @@ public class GameController : MonoBehaviour
 {
     
     private Stage stage;
-    public int wave = 0;
+    public int wave_num = 0;
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     public List<GameObject> enemyObjects;
     public List<Board> waves;
+    public Board board;
     public int turn = 0;
 
     // Start is called before the first frame update
@@ -34,15 +35,16 @@ public class GameController : MonoBehaviour
                 new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4),
             },
             new Board{
-                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 0),
+                new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 0),
                 new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 1),
-                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2),
-                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3),
-                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4),
+                new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 2),
+                new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 3),
+                new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 4),
             },
         };
-        stage = new Stage(enemies, waves[0]);
-        DrawEnemy(ref stage.board);
+        stage = new Stage(enemies, waves);
+        board = stage.waves[wave_num];
+        DrawEnemy(ref board);
     }
 
     // Update is called once per frame
@@ -51,32 +53,46 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             UpdateTurn();
-            if (turn == stage.enemies[wave].turn)
+            if (wave_num < stage.enemies.Count && turn == stage.enemies[wave_num].turn)
             {
                 turn = 0;
-                wave += 1;
-                stage = new Stage(stage.enemies, waves[wave]);
-                DrawEnemy(ref stage.board);
+                wave_num += 1;
+                if (wave_num >= stage.waves.Count)
+                {
+                    board = new Board();
+                } 
+                else
+                {
+                    board = stage.waves[wave_num];
+                }
+                
+                DrawEnemy(ref board);
             }
         }
     }
 
     void UpdateTurn()
     {
-        MoveEnemies(ref stage.board);
-        DrawEnemy(ref stage.board);
+        MoveEnemies(ref board);
+        DrawEnemy(ref board);
         turn += 1;
     }
 
     // 将来的にはEffectとかでこの処理を行うべき
     void MoveEnemies(ref Board board)
     {
-        board[board.Count - 1].enemy.count += board[board.Count - 2].enemy.count;
+        if (board.Count >= 2) 
+        {
+            board[board.Count - 1].enemy.count += board[board.Count - 2].enemy.count;
+        }
         for (int i = board.Count - 3; i >= 0; i--)
         {
             board[i + 1].enemy.count = board[i].enemy.count;
         }
-        board[0].enemy = new Enemy(0, stage.enemies[wave].dice, stage.enemies[wave].id, 5);
+        if (board.Count != 0)
+        {
+            board[0].enemy = new Enemy(0, stage.enemies[wave_num].dice, stage.enemies[wave_num].id, 5);   
+        }
         string outputString = "Board";
         for (int i = 0; i < board.Count; i++)
         {

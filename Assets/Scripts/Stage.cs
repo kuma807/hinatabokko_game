@@ -8,13 +8,12 @@ using UnityEngine;
 public class Stage
 {
     public List<Enemy> enemies;
-    public Board board;
+    public List<Board> waves;
     
-    public Stage(List<Enemy> _enemies, Board _board)
+    public Stage(List<Enemy> _enemies, List<Board> _waves)
     {
         enemies = _enemies;
-        board = _board;
-        
+        waves = _waves;
     }
 
     public void DisplayInfo()

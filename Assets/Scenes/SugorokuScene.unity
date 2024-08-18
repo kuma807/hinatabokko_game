@@ -624,6 +624,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &678478455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 678478457}
+  - component: {fileID: 678478456}
+  m_Layer: 0
+  m_Name: GameRenderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &678478456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678478455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c4af44b65494842bc6c44e85130bfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyObjects:
+  - {fileID: 8838440887609812320, guid: 88835aba1594a4a78bcf58a094a3c189, type: 3}
+  - {fileID: 4371625213361373828, guid: 52506039cc9b543dab53fb28f257cf30, type: 3}
+--- !u!4 &678478457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678478455}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.54755247, y: 1.2112683, z: -0.048956748}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &807855387 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7973762304906112321, guid: 4e6926d54ddd146baa1218a734be8079,
@@ -741,9 +788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9348996c9d2ca4caf535eeb7ed23c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyObjects:
-  - {fileID: 8838440887609812320, guid: 88835aba1594a4a78bcf58a094a3c189, type: 3}
-  - {fileID: 4371625213361373828, guid: 52506039cc9b543dab53fb28f257cf30, type: 3}
   stageName: test
 --- !u!4 &1289276356
 Transform:
@@ -1426,3 +1470,4 @@ SceneRoots:
   - {fileID: 1582721505}
   - {fileID: 1186563449}
   - {fileID: 648293854}
+  - {fileID: 678478457}

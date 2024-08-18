@@ -10,20 +10,16 @@ public class GameController : MonoBehaviour
 {
     private Stage stage;
     private int wave_num = 0;
-    private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private Board board;
     private int turn = 0;
-
-    public List<GameObject> enemyObjects;
     public string stageName;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
-        DrawEnemy(ref board);
+        GameRenderer.Instance.UpdateEnemy(ref board);
     }
 
     // Update is called once per frame
@@ -47,7 +43,7 @@ public class GameController : MonoBehaviour
                         board = stage.waves[wave_num];
                     }
 
-                    DrawEnemy(ref board);
+                    GameRenderer.Instance.UpdateEnemy(ref board);
                 }
             }
         }
@@ -56,7 +52,7 @@ public class GameController : MonoBehaviour
     void UpdateTurn()
     {
         MoveEnemies(ref board);
-        DrawEnemy(ref board);
+        GameRenderer.Instance.UpdateEnemy(ref board);
         turn += 1;
     }
 
@@ -81,28 +77,5 @@ public class GameController : MonoBehaviour
             outputString += " " + board[i].enemy.count + ",";
         }
         Debug.Log(outputString);
-    }
-
-    void DrawEnemy(ref Board board)
-    {
-        foreach (GameObject enemyInstance in instantiatedEnemies)
-        {
-            if (enemyInstance != null)
-            {
-                Destroy(enemyInstance);
-            }
-        }
-        instantiatedEnemies.Clear();
-        for (int i = 0; i < board.Count; i++)
-        {
-            if (board[i].enemy.count != 0)
-            {
-                float scale = (float)2.0 + (float)Math.Log((double)board[i].enemy.count, 10.0) / (float)2.0;
-                float enemyHight = enemyObjects[board[i].enemy.id].GetComponent<SpriteRenderer>().bounds.size.y;
-                GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemy.id], new UnityEngine.Vector3(board[i].x, board[i].y + (float)(enemyHight * scale / 2.0) - (float)0.4, 0), UnityEngine.Quaternion.identity);
-                enemyInstance.transform.localScale = new UnityEngine.Vector3(scale, scale, scale);
-                instantiatedEnemies.Add(enemyInstance);
-            }
-        }
     }
 }

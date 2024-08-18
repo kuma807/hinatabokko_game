@@ -6,18 +6,18 @@ public class Cell
 {
     public int x;
     public int y;
-    public List<Enemy> enemies;
+    public Enemy enemy;
     public int index;
     public List<int> next_index;
     public List<int> prev_index;
     public StepOnEffect step_on_effect;
     public RollDiceEffect roll_dice_effect;
 
-    public Cell(int _x, int _y, List<Enemy> _enemies, int _index, StepOnEffect _step_on_effect, RollDiceEffect _roll_dice_effect)
+    public Cell(int _x, int _y, Enemy _enemy, int _index, StepOnEffect _step_on_effect, RollDiceEffect _roll_dice_effect)
     {
         x = _x;
         y = _y;
-        enemies = _enemies;
+        enemy = _enemy;
         index = _index;
         step_on_effect = _step_on_effect;
         roll_dice_effect = _roll_dice_effect;
@@ -27,9 +27,6 @@ public class Cell
     public void DisplayInfo()
     {
         UnityEngine.Debug.Log("Cell coordination: (" + x + ", " + y + ")");
-        foreach (Enemy enemy in enemies) 
-        {
-            enemy.DisplayInfo();
-        }
+        enemy.DisplayInfo();
     }
 }

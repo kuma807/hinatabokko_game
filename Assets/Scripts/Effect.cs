@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Buffers;
 public abstract class Effect
 {
     public abstract List<double> effect(Board board, Cell cell, Enemy enemy);
@@ -116,6 +117,21 @@ public class DeathEffect: StepOnEffect
         var res = new List<double>(board.Count);
         for (int i = 0; i < board.Count; i++) res.Add(0);
         res[cell.index] = Math.Max(0, 1 - death_probability);
+        return res;
+    }
+}
+
+public class BackStartEffect: StepOnEffect
+{
+    public BackStartEffect() {}
+    public override List<double> effect(Board board, Cell cell, Enemy enemy)
+    {
+        var res = new List<double>(board.Count);
+        for (int i = 0; i < board.Count; i++) res.Add(0);
+        foreach (int s in board.start)
+        {
+            res[s] = 1.0 / board.start.Count;
+        }
         return res;
     }
 }

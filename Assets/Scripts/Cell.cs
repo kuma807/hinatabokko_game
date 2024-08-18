@@ -23,7 +23,7 @@ public class Cell
         roll_dice_effect = _roll_dice_effect;
         // calculate next_index, prev_index
     }
-
+    
     public void DisplayInfo()
     {
         UnityEngine.Debug.Log("Cell coordination: (" + x + ", " + y + ")");

@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using System;
+using System.Numerics;
 
 public class GameController : MonoBehaviour
 {
@@ -17,16 +18,16 @@ public class GameController : MonoBehaviour
     {
         List<Enemy> enemies = new List<Enemy>()
         {
-            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0),
-            new Enemy(2, new List<int>{1}, 1)
+            new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5),
+            new Enemy(2, new List<int>{1}, 1, 5)
         };
         Board board = new Board()
         {
-            new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0), 0, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1), 1, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0), 2, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0), 3, new NullStepOnEffect(), new NullRollDiceEffect()),
-            new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0), 4, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(0, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 0, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(2, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 1, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(4, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(6, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3, new NullStepOnEffect(), new NullRollDiceEffect()),
+            new Cell(8, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4, new NullStepOnEffect(), new NullRollDiceEffect()),
         };
         stage = new Stage(enemies, board);
         DrawEnemy(ref stage.board);
@@ -55,7 +56,7 @@ public class GameController : MonoBehaviour
         {
             board[i + 1].enemy.count = board[i].enemy.count;
         }
-        board[0].enemy = new Enemy(0, stage.enemies[wave].dice, stage.enemies[wave].id);
+        board[0].enemy = new Enemy(0, stage.enemies[wave].dice, stage.enemies[wave].id, 5);
         string outputString = "Board";
         for (int i = 0; i < board.Count; i++)
         {
@@ -80,8 +81,8 @@ public class GameController : MonoBehaviour
             {
                 float scale = (float)2.0 + (float)Math.Log((double)board[i].enemy.count, 10.0) / (float)2.0;
                 float enemyHight = enemyObjects[board[i].enemy.id].GetComponent<SpriteRenderer>().bounds.size.y;
-                GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemy.id], new Vector3(board[i].x, board[i].y + (float)(enemyHight * scale / 2.0) - (float)0.4, 0), Quaternion.identity);
-                enemyInstance.transform.localScale = new Vector3(scale, scale, scale);
+                GameObject enemyInstance = Instantiate(enemyObjects[board[i].enemy.id], new UnityEngine.Vector3(board[i].x, board[i].y + (float)(enemyHight * scale / 2.0) - (float)0.4, 0), UnityEngine.Quaternion.identity);
+                enemyInstance.transform.localScale = new UnityEngine.Vector3(scale, scale, scale);
                 instantiatedEnemies.Add(enemyInstance);
             }
         }

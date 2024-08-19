@@ -42,6 +42,8 @@ public class Cell
         // calculate next_index, prev_index
     }
 
+
+
     public void set_step_on_effect(StepOnEffect _s)
     {
         step_on_effect = _s;

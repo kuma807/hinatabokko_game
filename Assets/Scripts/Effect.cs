@@ -66,6 +66,7 @@ public class BackEffect : StepOnEffect
             {
                 if (c.prev_index.Count == 0) continue;
                 if (res[c.index] == 0) continue;
+                
                 foreach (int b in c.prev_index)
                 {
                     nres[b] += res[c.index] / c.prev_index.Count;

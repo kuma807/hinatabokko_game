@@ -38,6 +38,8 @@ public class Stage
                         new Cell(6, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 4, new List<int>{3}, new List<int>{}),
                     },
                 };
+                List<int> goal = new List<int>{5};
+                SetGoal(ref waves, goal);
                 enemyPassLimits = new List<BigInteger>{100000, 100000};
                 break;
             default:
@@ -45,6 +47,14 @@ public class Stage
                 waves = new List<Board>();
                 enemyPassLimits = new List<BigInteger>();
                 break;
+        }
+    }
+
+    public void SetGoal(ref List<Board> waves, List<int> goal)
+    {
+        for (int i = 0; i < waves.Count; i++)
+        {
+            waves[i].SetGoal(goal);
         }
     }
 

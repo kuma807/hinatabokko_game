@@ -8,12 +8,19 @@ using UnityEngine;
 public class Board: List<Cell>
 {
     public List<int> start, goal;
-    public Board() {}
+    public Board() {
+        start = new List<int>{};
+        goal = new List<int>{};
+    }
     public void DisplayInfo()
     {
         UnityEngine.Debug.Log(this);
     }
 
+    public void SetGoal(List<int> _goal)
+    {
+        goal = _goal;
+    }
     
     public List<double> StepN(int index,int n)
     {

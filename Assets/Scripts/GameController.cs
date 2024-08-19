@@ -12,20 +12,18 @@ public class GameController : MonoBehaviour
     private bool wavesStart = false;
     private int wave_num = 0;
     private Board board;
-    private int turn = 0;
+    private int turn = -2;
     public string stageName;
     private Inventory inventory;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
         inventory = Inventory.TestInventory();
         GameRenderer.Instance.CreateCell(ref board);
         GameRenderer.Instance.CreateCards(ref inventory);
-        GameRenderer.Instance.CreateWaveClearPopup(board[0].enemy);
     }
 
     // Update is called once per frame
@@ -40,18 +38,31 @@ public class GameController : MonoBehaviour
         {
             if (turn == stage.enemies[wave_num].turn)
             {
-                turn = 0;
+                turn = -3;
                 wave_num += 1;
                 if (wave_num < stage.waves.Count)
                 {
                     board = stage.waves[wave_num];
-                    GameRenderer.Instance.UpdateEnemy(ref board);
                 }
             }
             else
             {
-                MoveEnemies(ref board);
-                GameRenderer.Instance.UpdateEnemy(ref board);
+                if (turn == -2)
+                {
+                    GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
+                    GameRenderer.Instance.DeleteEnemy();
+                }
+                if (turn == 0)
+                {
+                    GameRenderer.Instance.DeleteWaveClearPopup();
+                    MoveEnemies(ref board);
+                    GameRenderer.Instance.UpdateEnemy(ref board);
+                }
+                else if (turn > 0)
+                {
+                    MoveEnemies(ref board);
+                    GameRenderer.Instance.UpdateEnemy(ref board);
+                }
                 turn += 1;
             }
         }

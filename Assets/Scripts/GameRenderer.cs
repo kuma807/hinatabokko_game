@@ -120,7 +120,7 @@ public class GameRenderer : MonoBehaviour
                 break;
             }
         }
-        GameObject enemyInstance = Instantiate(enemyObjects[0], new Vector3((float)-3.64, (float)0.32,0), Quaternion.identity);
+        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new Vector3((float)-3.64, (float)0.32,0), Quaternion.identity);
         enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
         enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
         backGround.transform.SetParent(canvas.transform);

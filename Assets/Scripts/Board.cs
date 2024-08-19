@@ -13,6 +13,7 @@ public class Board: List<Cell>
         UnityEngine.Debug.Log(this);
     }
 
+    
     public List<double> StepN(int index,int n)
     {
         List<double> result = new List<double>(Count);

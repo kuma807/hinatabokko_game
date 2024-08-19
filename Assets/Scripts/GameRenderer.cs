@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+using System.Numerics;
+using Unity.VisualScripting;
 
 public class GameRenderer : MonoBehaviour
 {
@@ -19,6 +22,8 @@ public class GameRenderer : MonoBehaviour
     public GameObject canvas;
     public GameObject WaveClearPopup;
     public GameObject WaveFailPopup;
+    public TextMeshProUGUI GoalCount;
+
     
     private void Awake()
     {
@@ -59,7 +64,7 @@ public class GameRenderer : MonoBehaviour
     {
         foreach (Card card in inventory.cards)
         {
-            GameObject instantiatedCard = Instantiate(cardObjects[card.effect.id], new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject instantiatedCard = Instantiate(cardObjects[card.effect.id], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
             // instantiatedCardの子コンポーネントのtextを取得して，textの値を
@@ -148,7 +153,7 @@ public class GameRenderer : MonoBehaviour
                 break;
             }
         }
-        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new Vector3((float)-3.64, (float)0.32,0), Quaternion.identity);
+        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32,0), UnityEngine.Quaternion.identity);
         enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
         enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
         backGround.transform.SetParent(canvas.transform);
@@ -179,5 +184,10 @@ public class GameRenderer : MonoBehaviour
             Destroy(instantiatedWaveFailPopupObjects[i]);
         }
         instantiatedWaveFailPopupObjects.Clear();
+    }
+
+    public void DisplayGoalCount(BigInteger x)
+    {
+        GoalCount.text = x.ToString();
     }
 }

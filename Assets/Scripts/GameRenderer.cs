@@ -59,6 +59,7 @@ public class GameRenderer : MonoBehaviour
             GameObject instantiatedCard = Instantiate(cardObject, new Vector3(0, 0, 0), Quaternion.identity);
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
+            // instantiatedCardの子コンポーネントのtextを取得して，textの値を
         }
     }
 

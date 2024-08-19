@@ -45,11 +45,7 @@ public class GameController : MonoBehaviour
         inventory = Inventory.TestInventory();
         GameRenderer.Instance.CreateCell(ref board);
         GameRenderer.Instance.CreateCards(ref inventory);
-        foreach(var enemy in stage.enemies)
-        {
-            var e = enemy;
-            probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
-        }
+        
     }
 
     // Update is called once per frame
@@ -89,7 +85,8 @@ public class GameController : MonoBehaviour
                     else if (popupSecondsRemaining == 1)
                     {
                         GameRenderer.Instance.DeleteWaveClearPopup();
-                        MoveEnemies(ref board);
+                        Enemy enemies = stage.enemies[wave_num];
+                        MoveEnemiesByProbability(ref board, ref enemies);
                         GameRenderer.Instance.UpdateEnemy(ref board);
                     }
                     popupSecondsRemaining--;
@@ -98,7 +95,8 @@ public class GameController : MonoBehaviour
                 {
                     if (turn > 0)
                     {
-                        MoveEnemies(ref board);
+                        Enemy enemies = stage.enemies[wave_num];
+                        MoveEnemiesByProbability(ref board, ref enemies);
                         GameRenderer.Instance.UpdateEnemy(ref board);
                     }
                     turn += multiplier;
@@ -154,6 +152,11 @@ public class GameController : MonoBehaviour
 
     public void SetWavesStart(bool _wavesStart)
     {
+        foreach(var enemy in stage.enemies)
+        {
+            var e = enemy;
+            probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
+        }
         GameRenderer.Instance.DeleteWaveClearPopup();
         wavesStart = _wavesStart;
         InvokeRepeating("UpdateTurn", 0, 1.0f);

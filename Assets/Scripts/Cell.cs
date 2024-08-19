@@ -14,13 +14,14 @@ public class Cell
     public StepOnEffect step_on_effect = new NullStepOnEffect();
     public RollDiceEffect roll_dice_effect = new NullRollDiceEffect();
 
-    public Cell(int _x, int _y, Enemy _enemy, int _index)
+    public Cell(int _x, int _y, Enemy _enemy, int _index, List<int> _prev_index, List<int> _next_index)
     {
         x = _x;
         y = _y;
         enemy = _enemy;
         index = _index;
-        // calculate next_index, prev_index
+        prev_index = _prev_index;
+        next_index = _next_index;
     }
     public Cell(int _x, int _y, Enemy _enemy, int _index, StepOnEffect _s)
     {

@@ -69,6 +69,10 @@ public class BackEffect : StepOnEffect
         for (int i = 0; i < back; i++)
         {
             List<double> nres = new List<double>(size);
+            for (int j = 0; j < size; j++)
+            {
+                nres.Add(0);
+            }
             foreach (Cell c in board)
             {
                 if (c.prev_index.Count == 0) continue;

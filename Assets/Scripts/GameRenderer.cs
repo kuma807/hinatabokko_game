@@ -40,6 +40,18 @@ public class GameRenderer : MonoBehaviour
         }
     }
 
+    public int GetCellIndex(GameObject cell)
+    {
+        for (int i = 0; i < instantiatedCells.Count; i++)
+        {
+            if (instantiatedCells[i].transform.position == cell.transform.position)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void CreateCards(ref Inventory inventory)
     {
         for(int i = 0; i < inventory.cards.Count; i++)
@@ -48,6 +60,18 @@ public class GameRenderer : MonoBehaviour
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
         }
+    }
+
+    public int GetCardIndex(Card card) 
+    {
+        for (int i = 0; i < instantiatedCards.Count; i++)
+        {
+            if (instantiatedCards[i].transform.position == card.transform.position)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     public void DeleteEnemy()

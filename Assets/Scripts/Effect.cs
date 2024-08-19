@@ -14,6 +14,11 @@ public abstract class RollDiceEffect : Effect { }
 
 public class NullStepOnEffect : StepOnEffect
 {
+    public NullStepOnEffect()
+    {
+        this.id = 0;
+    }
+
     public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {
         int size = board.Count;
@@ -117,6 +122,10 @@ public class StopEffect : RollDiceEffect
 public class DeathEffect : StepOnEffect
 {
     double death_probability;
+    public DeathEffect()
+    {
+        this.id = 3;
+    }
     // enemy will be dead w.p. death_probability, be alive w.p. 1 - death_probability
     public DeathEffect(double _death_probability)
     {
@@ -133,7 +142,9 @@ public class DeathEffect : StepOnEffect
 
 public class BackStartEffect : StepOnEffect
 {
-    public BackStartEffect() { }
+    public BackStartEffect() { 
+        this.id = 4;
+    }
     public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {
         var res = new List<double>(board.Count);
@@ -148,7 +159,9 @@ public class BackStartEffect : StepOnEffect
 
 public class ReverseEffect: RollDiceEffect
 {
-    public ReverseEffect() {}
+    public ReverseEffect() {
+        this.id = 5;
+    }
     public override List<double> effect(Board board, Cell cell, Enemy enemy) 
     {
         var res = new List<double>(board.Count);

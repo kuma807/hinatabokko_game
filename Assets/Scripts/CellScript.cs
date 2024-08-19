@@ -48,6 +48,7 @@ public class CellScript : MonoBehaviour
             selectedCard.transform.parent.gameObject.SetActive(false);
         }
         spriteRenderer.sprite = BackSprite;
+        GameController.Instance.UseCardOnCell(selectedCard, gameObject);
     }
     private void OnRightClick()
     {

@@ -8,6 +8,22 @@ using System.Numerics;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance { get; private set; }
+
+    private void Awake()
+    {
+        // シングルトンの設定
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // シーン変更時にオブジェクトを保持
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private Stage stage;
     private bool wavesStart = false;
     private int wave_num = 0;
@@ -39,7 +55,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // ShowBoard();
     }
 
     // 1ターン進む（体力はmultiplier分減る）
@@ -141,5 +157,23 @@ public class GameController : MonoBehaviour
         GameRenderer.Instance.DeleteWaveClearPopup();
         wavesStart = _wavesStart;
         InvokeRepeating("UpdateTurn", 0, 1.0f);
+    }
+
+    public void UseCardOnCell(Card card, GameObject cell)
+    {
+        int cardIndex = GameRenderer.Instance.GetCardIndex(card);
+        int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
+        board[cellIndex].set_effect(inventory.cards[cardIndex].effect);
+    }
+
+    public void ShowBoard()
+    {
+        string s = "";
+        for (int i = 0; i < board.Count; i++)
+        {
+            s += (board[i].roll_dice_effect.id + board[i].step_on_effect.id).ToString();
+            s += ", ";
+        }
+        Debug.Log(s);
     }
 }

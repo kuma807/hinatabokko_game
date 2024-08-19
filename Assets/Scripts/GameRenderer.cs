@@ -8,9 +8,12 @@ public class GameRenderer : MonoBehaviour
 {
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
+    private List<GameObject> instantiatedCards = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
+    public GameObject cardObject;
+    public GameObject canvas;
     
     private void Awake()
     {
@@ -32,6 +35,16 @@ public class GameRenderer : MonoBehaviour
         {
             GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
             instantiatedCells.Add(instantiatedCell);
+        }
+    }
+
+    public void CreateCards(ref Inventory inventory)
+    {
+        for(int i = 0; i < inventory.cards.Count; i++)
+        {
+            GameObject instantiatedCard = Instantiate(cardObject,new Vector3(Card.CardWidth*i,-300,0),Quaternion.identity);
+            instantiatedCard.transform.SetParent(canvas.transform, false);
+            instantiatedCards.Add(instantiatedCard);
         }
     }
 

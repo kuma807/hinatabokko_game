@@ -4,6 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 
+
 [System.Diagnostics.DebuggerDisplay("effect: {effect}")]
 public class Card : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Card : MonoBehaviour
     private Color originalColor;
     private SpriteRenderer spriteRenderer; 
     public Effect effect;
-
+    public const int CardWidth = 120;
+    public const int CardHeight = 180;
     public Card(Effect _effect)
     {
         effect = _effect;

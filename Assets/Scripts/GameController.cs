@@ -14,13 +14,17 @@ public class GameController : MonoBehaviour
     private Board board;
     private int turn = 0;
     public string stageName;
+    private Inventory inventory;
 
     // Start is called before the first frame update
     void Start()
     {
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
+        inventory = Inventory.TestInventory();
         GameRenderer.Instance.CreateCell(ref board);
+        GameRenderer.Instance.CreateCards(ref inventory);
+        
     }
 
     // Update is called once per frame

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CellScript : MonoBehaviour
 {
     public Card selectedCard;
+    public Sprite originaCellObject;
     private GameObject obj;
     private SpriteRenderer spriteRenderer;
     public Sprite BackSprite;
@@ -56,7 +57,7 @@ public class CellScript : MonoBehaviour
         if (spriteRenderer.sprite == BackSprite)
         {
             usedCard.transform.parent.gameObject.SetActive(true);
-            spriteRenderer.sprite = null;
+            spriteRenderer.sprite = originaCellObject;
         }
     }
 

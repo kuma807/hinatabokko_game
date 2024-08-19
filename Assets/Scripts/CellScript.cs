@@ -7,16 +7,16 @@ public class CellScript : MonoBehaviour
     public Card selectedCard;
     private GameObject obj;
     private SpriteRenderer spriteRenderer;
-    public Sprite BackSprite;
     private Card usedCard;
     private GameObject popup;
-
+    private EffectIcons effectIcons;
     // Start is called before the first frame update
     void Start()
     {
         obj = GameObject.Find("CardController");
         popup = transform.Find("Popup").gameObject;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        effectIcons = GameObject.Find("EffectIcons").GetComponent<EffectIcons>();
     }
 
     // Update is called once per frame
@@ -42,17 +42,19 @@ public class CellScript : MonoBehaviour
         if (selectedCard != null)
         {
             usedCard = selectedCard;
+            UnityEngine.Debug.Log(usedCard.effect);
             cardController.RemoveSelect();
             selectedCard.RemoveHighlight();
             //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
             selectedCard.transform.parent.gameObject.SetActive(false);
+            spriteRenderer.sprite = effectIcons.GetSpriteById(usedCard.effect.id);
         }
-        spriteRenderer.sprite = BackSprite;
+        
     }
     private void OnRightClick()
     {
         Debug.Log("right clicked");
-        if (spriteRenderer.sprite == BackSprite)
+        if (usedCard != null)
         {
             usedCard.transform.parent.gameObject.SetActive(true);
             spriteRenderer.sprite = null;

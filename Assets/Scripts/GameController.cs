@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
         inventory = Inventory.TestInventory();
+
         GameRenderer.Instance.CreateCell(ref board);
         GameRenderer.Instance.CreateCards(ref inventory);
         

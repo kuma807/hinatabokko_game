@@ -42,8 +42,8 @@ public class GameRenderer : MonoBehaviour
     {
         for(int i = 0; i < inventory.cards.Count; i++)
         {
-            GameObject instantiatedCard = Instantiate(cardObject,new Vector3(Card.CardWidth*i,-300,0),Quaternion.identity);
-            instantiatedCard.transform.SetParent(canvas.transform, false);
+            GameObject instantiatedCard = Instantiate(cardObject,new Vector3(0,0,0),Quaternion.identity);
+            instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
         }
     }

@@ -47,9 +47,9 @@ public class CellScript : MonoBehaviour
             selectedCard.RemoveHighlight();
             //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
             selectedCard.transform.parent.gameObject.SetActive(false);
+            GameController.Instance.UseCardOnCell(selectedCard, gameObject);
+            spriteRenderer.sprite = BackSprite;
         }
-        spriteRenderer.sprite = BackSprite;
-        GameController.Instance.UseCardOnCell(selectedCard, gameObject);
     }
     private void OnRightClick()
     {

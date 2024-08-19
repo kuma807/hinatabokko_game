@@ -9,11 +9,13 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
     private List<GameObject> instantiatedCards = new List<GameObject>();
+    private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
     public GameObject cardObject;
     public GameObject canvas;
+    public GameObject WaveClearPopup;
     
     private void Awake()
     {
@@ -103,5 +105,35 @@ public class GameRenderer : MonoBehaviour
     {
         DeleteEnemy();
         CreateEnemy(ref board);
+    }
+
+    public void CreateWaveClearPopup(Enemy enemy)
+    {
+        GameObject backGround = Instantiate(WaveClearPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+        backGround.transform.SetParent(canvas.transform, false);
+        TextMeshProUGUI[] textComponents = backGround.GetComponentsInChildren<TextMeshProUGUI>(true);
+        foreach (TextMeshProUGUI tmp in textComponents)
+        {
+            if (tmp.gameObject.name == "DiceFaces")
+            {
+                tmp.text = string.Join(", ", enemy.dice);
+                break;
+            }
+        }
+        GameObject enemyInstance = Instantiate(enemyObjects[0], new Vector3((float)-3.64, (float)0.32,0), Quaternion.identity);
+        enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
+        enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
+        backGround.transform.SetParent(canvas.transform);
+        instantiatedWaveClearPopupObjects.Add(backGround);
+        instantiatedWaveClearPopupObjects.Add(enemyInstance);
+    }
+
+    public void DeleteWaveClearPopup()
+    {
+        for (int i = 0; i < instantiatedWaveClearPopupObjects.Count; i++)
+        {
+            Destroy(instantiatedWaveClearPopupObjects[i]);
+        }
+        instantiatedWaveClearPopupObjects.Clear();
     }
 }

@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
         inventory = Inventory.TestInventory();
         GameRenderer.Instance.CreateCell(ref board);
         GameRenderer.Instance.CreateCards(ref inventory);
-        
+        GameRenderer.Instance.CreateWaveClearPopup(board[0].enemy);
     }
 
     // Update is called once per frame
@@ -86,6 +86,7 @@ public class GameController : MonoBehaviour
 
     public void SetWavesStart(bool _wavesStart)
     {
+        GameRenderer.Instance.DeleteWaveClearPopup();
         wavesStart = _wavesStart;
         InvokeRepeating("UpdateTurn", 0, 1.0f);
     }

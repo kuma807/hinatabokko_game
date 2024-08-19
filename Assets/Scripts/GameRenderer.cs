@@ -162,4 +162,9 @@ public class GameRenderer : MonoBehaviour
         }
         instantiatedWaveClearPopupObjects.Clear();
     }
+
+    public void CreateWaveFailPopup()
+    {
+        // todo;
+    }
 }

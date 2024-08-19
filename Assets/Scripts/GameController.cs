@@ -59,6 +59,11 @@ public class GameController : MonoBehaviour
     {
         Debug.Log(popupSecondsRemaining);
         // wave がまだあるとき
+        if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
+        {
+            GameRenderer.Instance.CreateWaveFailPopup();
+            popupSecondsRemaining = PopupSeconds;
+        }
         if (wave_num < stage.waves.Count)
         {
             // 敵が全部倒れたとき

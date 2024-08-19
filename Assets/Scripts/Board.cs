@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Numerics;
 using UnityEngine;
 
 [System.Diagnostics.DebuggerDisplay("cells: {cells}")]
@@ -65,5 +66,15 @@ public class Board: List<Cell>
             }
         }
         return result;
+    }
+
+    public BigInteger enemy_pass_count()
+    {
+        BigInteger res = 0;
+        foreach (int i in goal)
+        {
+            res += this[i].enemy.count;
+        }
+        return res;
     }
 }

@@ -17,16 +17,23 @@ public class GameController : MonoBehaviour
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
     public string stageName;
+    private Dictionary<int,List<List<double>>> probMatrices = new Dictionary<int, List<List<double>>>();
     private Inventory inventory;
 
     // Start is called before the first frame update
     void Start()
     {
         stage = new Stage(stageName);
+        
         board = stage.waves[wave_num];
         inventory = Inventory.TestInventory();
         GameRenderer.Instance.CreateCell(ref board);
         GameRenderer.Instance.CreateCards(ref inventory);
+        foreach(var enemy in stage.enemies)
+        {
+            var e = enemy;
+            probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
+        }
     }
 
     // Update is called once per frame
@@ -35,6 +42,7 @@ public class GameController : MonoBehaviour
 
     }
 
+    // 1ターン進む（体力はmultiplier分減る）
     void UpdateTurn()
     {
         Debug.Log(popupSecondsRemaining);
@@ -87,6 +95,21 @@ public class GameController : MonoBehaviour
             // GameRenderer.Instance.CreateStageClearPopup();
             CancelInvoke("UpdateTurn");
             GameRenderer.Instance.DeleteEnemy();
+        }
+    }
+
+    // 1回の更新で multiplier 分のターンが進む
+    void MoveEnemiesByProbability(ref Board board,ref Enemy enemy)
+    {
+        List<BigInteger> enemiesCount = new List<BigInteger>(board.Count);
+        for (int i = 0; i < board.Count; i++)
+        {
+            enemiesCount.Add(board[i].enemy.count);
+        }
+        List<BigInteger> nextEnemiesCount = GameCalculater.NTurnsLater(probMatrices[enemy.id],enemiesCount, multiplier);
+        for (int i = 0; i < board.Count; i++)
+        {
+            board[i].enemy.count = nextEnemiesCount[i];
         }
     }
 

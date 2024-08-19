@@ -112,4 +112,10 @@ public static class GameCalculater
         }
         return x;
     }
+
+    public static List<BigInteger> NTurnsLater(in List<List<double>> probMat,List<BigInteger> x,BigInteger turn)
+    {
+        var powMat = updateTurn(probMat, turn);
+        return Act(ref powMat, x);
+    }
 }

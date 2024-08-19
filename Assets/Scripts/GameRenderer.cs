@@ -10,6 +10,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedCells = new List<GameObject>();
     private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
+    private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
@@ -17,6 +18,7 @@ public class GameRenderer : MonoBehaviour
     public List<GameObject> cardObjects;
     public GameObject canvas;
     public GameObject WaveClearPopup;
+    public GameObject WaveFailPopup;
     
     private void Awake()
     {
@@ -165,6 +167,17 @@ public class GameRenderer : MonoBehaviour
 
     public void CreateWaveFailPopup()
     {
-        // todo;
+        GameObject instantiatedWaveFailPopup = Instantiate(WaveFailPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+        instantiatedWaveFailPopup.transform.SetParent(canvas.transform, false);
+        instantiatedWaveFailPopupObjects.Add(instantiatedWaveFailPopup);
+    }
+
+    public void DeleteWaveFailPopup()
+    {
+        for (int i = 0; i < instantiatedWaveFailPopupObjects.Count; i++)
+        {
+            Destroy(instantiatedWaveFailPopupObjects[i]);
+        }
+        instantiatedWaveFailPopupObjects.Clear();
     }
 }

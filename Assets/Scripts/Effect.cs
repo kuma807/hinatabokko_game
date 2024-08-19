@@ -126,14 +126,11 @@ public class StopEffect : RollDiceEffect
 public class DeathEffect : StepOnEffect
 {
     double death_probability;
-    public DeathEffect()
-    {
-        this.id = 3;
-    }
     // enemy will be dead w.p. death_probability, be alive w.p. 1 - death_probability
     public DeathEffect(double _death_probability)
     {
         death_probability = _death_probability;
+        this.id = 3;
     }
     public override List<double> effect(Board board, Cell cell, Enemy enemy)
     {

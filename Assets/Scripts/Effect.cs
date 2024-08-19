@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Buffers;
+using UnityEngine.UIElements;
 public abstract class Effect
 {
     public abstract List<double> effect(Board board, Cell cell, Enemy enemy);
@@ -73,7 +74,7 @@ public class BackEffect : StepOnEffect
                     nres[b] += res[c.index] / c.prev_index.Count;
                 }
             }
-            (res, nres) = (nres, res);
+            (res, _) = (nres, res);
         }
 
         return res;
@@ -100,7 +101,7 @@ public class StopEffect : RollDiceEffect
         foreach (int next in enemy.dice)
         {
             List<double> step = board.StepN(cell.index, next);
-            // ’¼ü‚Ì‚Æ‚« step[index+next] = 1, 0 o/w.
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚Æ‚ï¿½ step[index+next] = 1, 0 o/w.
 
             for (int i = 0; i < size; i++)
             {
@@ -140,6 +141,24 @@ public class BackStartEffect : StepOnEffect
         foreach (int s in board.start)
         {
             res[s] = 1.0 / board.start.Count;
+        }
+        return res;
+    }
+}
+
+public class ReverseEffect: RollDiceEffect
+{
+    public ReverseEffect() {}
+    public override List<double> effect(Board board, Cell cell, Enemy enemy) 
+    {
+        var res = new List<double>(board.Count);
+        foreach (int next in enemy.dice)
+        {
+            var nres = board.BackN(cell.index, next);
+            for (int i = 0; i < board.Count; i++)
+            {
+                res[i] += nres[i] * (1.0 / enemy.dice.Count);
+            }
         }
         return res;
     }

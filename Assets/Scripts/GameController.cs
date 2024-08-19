@@ -12,7 +12,10 @@ public class GameController : MonoBehaviour
     private bool wavesStart = false;
     private int wave_num = 0;
     private Board board;
-    private int turn = -2;
+    private int turn = 0;
+    private int multiplier = 1;
+    private const int PopupSeconds = 2;
+    private int popupSecondsRemaining = PopupSeconds;
     public string stageName;
     private Inventory inventory;
 
@@ -34,40 +37,55 @@ public class GameController : MonoBehaviour
 
     void UpdateTurn()
     {
+        Debug.Log(turn);
+        // wave がまだあるとき
         if (wave_num < stage.waves.Count)
         {
-            if (turn == stage.enemies[wave_num].turn)
+            // 敵が全部倒れたとき
+            if (turn >= stage.enemies[wave_num].turn)
             {
-                turn = -3;
+                turn = 0;
                 wave_num += 1;
                 if (wave_num < stage.waves.Count)
                 {
                     board = stage.waves[wave_num];
                 }
+                popupSecondsRemaining = PopupSeconds;
             }
             else
             {
-                if (turn == -2)
+                // ポップアップ表示中
+                if (popupSecondsRemaining > 0)
                 {
-                    GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
-                    GameRenderer.Instance.DeleteEnemy();
+                    if (popupSecondsRemaining == PopupSeconds)
+                    {
+                        GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
+                        GameRenderer.Instance.DeleteEnemy();
+                        popupSecondsRemaining -= 1;
+                    }
+                    else if (popupSecondsRemaining == 1)
+                    {
+                        GameRenderer.Instance.DeleteWaveClearPopup();
+                        MoveEnemies(ref board);
+                        GameRenderer.Instance.UpdateEnemy(ref board);
+                    }
+                    popupSecondsRemaining--;
                 }
-                if (turn == 0)
+                else
                 {
-                    GameRenderer.Instance.DeleteWaveClearPopup();
-                    MoveEnemies(ref board);
-                    GameRenderer.Instance.UpdateEnemy(ref board);
+                    if (turn > 0)
+                    {
+                        MoveEnemies(ref board);
+                        GameRenderer.Instance.UpdateEnemy(ref board);
+                    }
+                    turn += multiplier;
                 }
-                else if (turn > 0)
-                {
-                    MoveEnemies(ref board);
-                    GameRenderer.Instance.UpdateEnemy(ref board);
-                }
-                turn += 1;
             }
         }
         else
         {
+            // TODO: 
+            // GameRenderer.Instance.CreateStageClearPopup();
             CancelInvoke("UpdateTurn");
             GameRenderer.Instance.DeleteEnemy();
         }

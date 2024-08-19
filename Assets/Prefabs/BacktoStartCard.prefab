@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 5662302186248171648}
   - component: {fileID: 7107434966726895816}
   m_Layer: 5
-  m_Name: BackCard
+  m_Name: BacktoStartCard
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -231,7 +231,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: back n
+  m_Text: Back to Start
 --- !u!1 &7484421594361061885
 GameObject:
   m_ObjectHideFlags: 0

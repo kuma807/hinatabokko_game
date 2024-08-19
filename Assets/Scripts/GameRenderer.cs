@@ -14,6 +14,7 @@ public class GameRenderer : MonoBehaviour
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
     public GameObject cardObject;
+    public List<GameObject> cardObjects;
     public GameObject canvas;
     public GameObject WaveClearPopup;
     
@@ -54,9 +55,9 @@ public class GameRenderer : MonoBehaviour
 
     public void CreateCards(ref Inventory inventory)
     {
-        for(int i = 0; i < inventory.cards.Count; i++)
+        foreach (Card card in inventory.cards)
         {
-            GameObject instantiatedCard = Instantiate(cardObject, new Vector3(0, 0, 0), Quaternion.identity);
+            GameObject instantiatedCard = Instantiate(cardObjects[card.effect.id], new Vector3(0, 0, 0), Quaternion.identity);
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
             // instantiatedCardの子コンポーネントのtextを取得して，textの値を

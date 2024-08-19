@@ -363,6 +363,8 @@ MonoBehaviour:
   canvas: {fileID: 648293850}
   WaveClearPopup: {fileID: 2229366105077324390, guid: 75ee0ce8424f94f9fb76fd4e01e5ff20,
     type: 3}
+  WaveFailPopup: {fileID: 2229366105077324390, guid: b7db38191affb47928480512aed3c0f4,
+    type: 3}
   GoalCount: {fileID: 1548228188}
 --- !u!4 &678478457
 Transform:

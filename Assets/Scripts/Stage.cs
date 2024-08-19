@@ -28,7 +28,7 @@ public class Stage
                         new Cell(0, 0, new Enemy(100, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 1, new List<int>{0}, new List<int>{2}),
                         new Cell(2, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 2, new List<int>{1}, new List<int>{3}),
                         new Cell(4, 0, new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 3, new List<int>{2}, new List<int>{4}),
-                        new Cell(6, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4, new List<int>{3}, new List<int>{}),
+                        new Cell(6, 0, new Enemy(1000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 5), 4, new List<int>{3}, new List<int>{}),
                     },
                     new Board{
                         new Cell(-2, 0, new Enemy(1, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 0, new List<int>{}, new List<int>{1}),
@@ -38,7 +38,7 @@ public class Stage
                         new Cell(6, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 4, new List<int>{3}, new List<int>{}),
                     },
                 };
-                List<int> goal = new List<int>{5};
+                List<int> goal = new List<int>{4};
                 SetGoal(ref waves, goal);
                 enemyPassLimits = new List<BigInteger>{100000, 100000};
                 break;

@@ -16,10 +16,12 @@ public class Inventory
 
     static public Inventory TestInventory()
     {
-        Card back1 = new Card(new BackEffect(1));
-        Card back2 = new Card(new BackEffect(2));
-        Card stop1 = new Card(new StopEffect(1));
-        return new Inventory(new List<Card> { back1, back2,stop1 });
+        Card back1 = new Card(new BackStartEffect());
+        Card back2 = new Card(new StopEffect(2));
+        Card stop1 = new Card(new DeathEffect((float)0.5));
+        Card backStart = new Card(new BackStartEffect());
+        Card reverseEffect = new Card(new ReverseEffect());
+        return new Inventory(new List<Card> { back1, back2, stop1, backStart, reverseEffect});
     }
 
     public void DisplayInfo()

@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
 
     void UpdateTurn()
     {
-        Debug.Log(turn);
+        Debug.Log(popupSecondsRemaining);
         // wave がまだあるとき
         if (wave_num < stage.waves.Count)
         {
@@ -61,7 +61,6 @@ public class GameController : MonoBehaviour
                     {
                         GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
                         GameRenderer.Instance.DeleteEnemy();
-                        popupSecondsRemaining -= 1;
                     }
                     else if (popupSecondsRemaining == 1)
                     {

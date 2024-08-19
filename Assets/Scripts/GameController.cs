@@ -59,11 +59,6 @@ public class GameController : MonoBehaviour
     {
         Debug.Log(popupSecondsRemaining);
         // wave がまだあるとき
-        if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
-        {
-            GameRenderer.Instance.CreateWaveFailPopup();
-            popupSecondsRemaining = PopupSeconds;
-        }
         if (wave_num < stage.waves.Count)
         {
             GameRenderer.Instance.DisplayGoalCount(board.enemy_pass_count());
@@ -92,7 +87,6 @@ public class GameController : MonoBehaviour
                     {
                         GameRenderer.Instance.DeleteWaveClearPopup();
                         Enemy enemies = stage.enemies[wave_num];
-                        MoveEnemiesByProbability(ref board, ref enemies);
                         GameRenderer.Instance.UpdateEnemy(ref board);
                     }
                     popupSecondsRemaining--;
@@ -104,6 +98,11 @@ public class GameController : MonoBehaviour
                         Enemy enemies = stage.enemies[wave_num];
                         MoveEnemiesByProbability(ref board, ref enemies);
                         GameRenderer.Instance.UpdateEnemy(ref board);
+                        if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
+                        {
+                            GameRenderer.Instance.CreateWaveFailPopup();
+                            CancelInvoke("UpdateTurn");
+                        }
                     }
                     turn += multiplier;
                 }

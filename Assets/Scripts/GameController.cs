@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         stage = new Stage(stageName);
         board = stage.waves[wave_num];
         inventory = Inventory.TestInventory();

@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-
+using System.Numerics;
 
 [System.Diagnostics.DebuggerDisplay("enemies: {enemies}")]
 public class Stage
 {
     public List<Enemy> enemies;
     public List<Board> waves;
+    public List<BigInteger> enemyPassLimits;
     
     public Stage(string stageName)
     {
@@ -37,10 +38,12 @@ public class Stage
                         new Cell(6, 0, new Enemy(1000000000, new List<int>{1, 2, 3, 4, 5, 6}, 1, 5), 4, new List<int>{3}, new List<int>{}),
                     },
                 };
+                enemyPassLimits = new List<BigInteger>{100000, 100000};
                 break;
             default:
                 enemies = new List<Enemy>();
                 waves = new List<Board>();
+                enemyPassLimits = new List<BigInteger>();
                 break;
         }
     }

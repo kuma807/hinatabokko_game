@@ -8,10 +8,10 @@ using System.Numerics;
 
 public class CellInfo
 {
-    public int x, y;
+    public float x, y;
     public List<int> prev_index, next_index;
 
-    public CellInfo(int _x, int _y, List<int> _prev_index, List<int> _next_index)
+    public CellInfo(float _x, float _y, List<int> _prev_index, List<int> _next_index)
     {
         x = _x;
         y = _y;
@@ -38,11 +38,11 @@ public class Stage
             case "test":
                 //そのステージの情報
                 boardInfo = new List<CellInfo>{
-                    new CellInfo(-2, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
-                    new CellInfo(0, 0, new List<int>{0}, new List<int>{2}),
-                    new CellInfo(2, 0, new List<int>{1}, new List<int>{3}),
-                    new CellInfo(4, 0, new List<int>{2}, new List<int>{4}),
-                    new CellInfo(6, 0, new List<int>{3}, new List<int>{}),
+                    new CellInfo(-2.0f, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
+                    new CellInfo(-3.2f, 0, new List<int>{0}, new List<int>{2}),
+                    new CellInfo(2.0f, 0, new List<int>{1}, new List<int>{3}),
+                    new CellInfo(4.0f, 0, new List<int>{2}, new List<int>{4}),
+                    new CellInfo(6.0f, 0, new List<int>{3}, new List<int>{}),
                 };
                 starts = new List<int>{0};
                 goals = new List<int>{4};
@@ -63,11 +63,11 @@ public class Stage
             case "test2":
                 //そのステージの情報
                 boardInfo = new List<CellInfo>{
-                    new CellInfo(-2, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
+                    new CellInfo(-2.0f, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
                     new CellInfo(0, 0, new List<int>{0}, new List<int>{2}),
-                    new CellInfo(2, 0, new List<int>{1}, new List<int>{3}),
-                    new CellInfo(4, 0, new List<int>{2}, new List<int>{4}),
-                    new CellInfo(6, 1, new List<int>{3}, new List<int>{}),
+                    new CellInfo(2.0f, 0, new List<int>{1}, new List<int>{3}),
+                    new CellInfo(4.0f, 0, new List<int>{2}, new List<int>{4}),
+                    new CellInfo(6.0f, 1.0f, new List<int>{3}, new List<int>{}),
                 };
                 starts = new List<int>{0};
                 goals = new List<int>{4};

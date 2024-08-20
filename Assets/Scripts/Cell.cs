@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Cell
 {
-    public int x;
-    public int y;
+    public float x;
+    public float y;
     public Enemy enemy;
     public int index;
     public List<int> next_index;
@@ -14,7 +14,7 @@ public class Cell
     public StepOnEffect step_on_effect = new NullStepOnEffect();
     public RollDiceEffect roll_dice_effect = new NullRollDiceEffect();
 
-    public Cell(int _x, int _y, Enemy _enemy, int _index, List<int> _prev_index, List<int> _next_index)
+    public Cell(float _x, float _y, Enemy _enemy, int _index, List<int> _prev_index, List<int> _next_index)
     {
         x = _x;
         y = _y;
@@ -23,7 +23,7 @@ public class Cell
         prev_index = _prev_index;
         next_index = _next_index;
     }
-    public Cell(int _x, int _y, Enemy _enemy, int _index, StepOnEffect _s)
+    public Cell(float _x, float _y, Enemy _enemy, int _index, StepOnEffect _s)
     {
         x = _x;
         y = _y;
@@ -33,7 +33,7 @@ public class Cell
         // calculate next_index, prev_index
     }
 
-    public Cell(int _x, int _y, Enemy _enemy, int _index, RollDiceEffect _r)
+    public Cell(float _x, float _y, Enemy _enemy, int _index, RollDiceEffect _r)
     {
         x = _x;
         y = _y;

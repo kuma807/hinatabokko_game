@@ -98,7 +98,8 @@ public class Stage
                     var next_index = new List<int>();
                     if (i > 0) prev_index.Add(i - 1);
                     if (i + 1 < size1) next_index.Add(i + 1);
-                    boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                 }
                 starts = new List<int>{0};
                 goals = new List<int>{size1 - 1};
@@ -133,7 +134,8 @@ public class Stage
                     var next_index = new List<int>();
                     if (i > 0) prev_index.Add(i - 1);
                     if (i + 1 < size2) next_index.Add(i + 1);
-                    boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                 }
                 starts = new List<int>{0};
                 goals = new List<int>{size2 - 1};

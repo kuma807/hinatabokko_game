@@ -477,7 +477,7 @@ MonoBehaviour:
   gameState: 0
   stageNames:
   - Stage1
-  - test2
+  - Stage2
 --- !u!4 &1289276356
 Transform:
   m_ObjectHideFlags: 0

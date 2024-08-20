@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.U2D.IK;
@@ -25,8 +28,15 @@ public static class GameCalculater
             var v1 = cell.roll_dice_effect.effect(board, cell, enemy);
             for (int i = 0; i < n; i++)
             {
-                if (i == cell.index) continue;
                 var v2 = board[i].step_on_effect.effect(board, board[i], enemy);
+                if (i == cell.index)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        if (i == j) v2[j] = 1;
+                        else v2[j] = 0;
+                    }
+                }
                 for (int j = 0; j < n; j++) res[j][cell.index] += v1[i] * v2[j];
             }
         }
@@ -60,7 +70,7 @@ public static class GameCalculater
     }
 
     //Tターン後の遷移確率を行列累乗で計算
-    public static List<List<double>> updateTurn(List<List<double>> prob, long turn)
+    public static List<List<double>> updateTurn(List<List<double>> prob, BigInteger turn)
     {
         var res = new List<List<double>>(prob.Count);
         for (int i = 0; i < prob.Count; i++)
@@ -72,10 +82,11 @@ public static class GameCalculater
             }
         }
         for (int i = 0; i < prob.Count; i++) res[i][i] = 1;
-        while (turn > 1) {
+        while (turn > 0)
+        {
             if ((turn & 1) == 1)
             {
-                res = product(res, prob);
+                res = product(prob, res);
             }
             prob = product(prob, prob);
             turn >>= 1;
@@ -83,17 +94,28 @@ public static class GameCalculater
         return res;
     }
 
-    public static List<double> Act(ref List<List<double>> A, List<double> x)
+    public static List<BigInteger> Act(ref List<List<double>> A, List<BigInteger> x)
     {
         Debug.Assert(A[0].Count == x.Count);
         var tmp_vec = new List<List<double>>(x.Count);
         for (int i = 0; i < x.Count; i++)
         {
             tmp_vec.Add(new List<double>(1));
-            tmp_vec[i].Add(x[i]);
+            tmp_vec[i].Add((double)x[i]);
         }
+        BigInteger s = 0, s2 = 0;
         tmp_vec = product(A, tmp_vec);
-        for (int i = 0; i < x.Count; i++) x[i] = tmp_vec[i][0];
+        for (int i = 0; i < x.Count; i++) {
+            s += x[i];
+            x[i] = (BigInteger)tmp_vec[i][0];
+            s2 += x[i];
+        }
         return x;
+    }
+
+    public static List<BigInteger> NTurnsLater(in List<List<double>> probMat,List<BigInteger> x,BigInteger turn)
+    {
+        var powMat = updateTurn(probMat, turn);
+        return Act(ref powMat, x);
     }
 }

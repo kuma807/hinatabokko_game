@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     private int wave_num = 0;
     private Board board;
     private BigInteger turn = 0;
-    private BigInteger multiplier = 3;
+    private BigInteger multiplier = 1;
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
     private int stageNumber = 0;

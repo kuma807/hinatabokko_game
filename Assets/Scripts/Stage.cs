@@ -102,9 +102,10 @@ public class Stage
                     if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                     else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                 }
-                starts = new List<int>{0};
-                goals = new List<int>{size1 - 1};
-                unchangeable = new List<int>{0, size1 - 1};
+                boardInfo[6].next_index.Add(14);
+                starts = new List<int>{0, 1};
+                goals = new List<int>{size1 - 2, size1 - 1};
+                unchangeable = new List<int>{0, 1, size1 - 1, size1 - 2};
                 //敵の情報
                 BigInteger enemy1count1 = GameCalculater.TEN(5);
                 BigInteger enemy2count1 = GameCalculater.TEN(6);

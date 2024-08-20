@@ -20,6 +20,7 @@ public class GameRenderer : MonoBehaviour
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
+    public Sprite GoalCellSprite;
     public GameObject cardObject;
     public List<GameObject> cardObjects;
     public GameObject canvas;
@@ -65,7 +66,21 @@ public class GameRenderer : MonoBehaviour
     {
         for (int i = 0; i < board.Count; i++)
         {
+            bool isGoal = false;
+            for (int j = 0; j < board.goal.Count; j++)
+            {
+                if (i == board.goal[j])
+                {
+                    isGoal = true;
+                }
+            }
             GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
+            if (isGoal)
+            {
+                Transform iconObject = instantiatedCell.transform.Find("Icon");
+                iconObject.localScale = new UnityEngine.Vector3(0.15f, 0.15f, 0.15f);
+                iconObject.GetComponent<SpriteRenderer>().sprite = GoalCellSprite;
+            }
             instantiatedCells.Add(instantiatedCell);
         }
     }

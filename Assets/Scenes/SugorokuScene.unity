@@ -351,6 +351,7 @@ MonoBehaviour:
   - {fileID: 4371625213361373828, guid: 52506039cc9b543dab53fb28f257cf30, type: 3}
   cellObject: {fileID: 7973762304906112321, guid: 45771245f3adb48838696eaad92c6637,
     type: 3}
+  GoalCellSprite: {fileID: 21300000, guid: 30987d1d59ead407b94051ee118828fa, type: 3}
   cardObject: {fileID: 2938887379017640197, guid: f0a4baf790c05614f92c5f57607226f5,
     type: 3}
   cardObjects:

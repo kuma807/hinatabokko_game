@@ -10,6 +10,7 @@ using Unity.VisualScripting;
 public class GameRenderer : MonoBehaviour
 {
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
+    private List<GameObject> instantiatedLines = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
     private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveStartPopupObjects = new List<GameObject>();
@@ -19,6 +20,7 @@ public class GameRenderer : MonoBehaviour
     private GameObject instantiatedBackGround;
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
+    public GameObject lineObject;
     public GameObject cellObject;
     public Sprite GoalCellSprite;
     public GameObject cardObject;
@@ -88,6 +90,16 @@ public class GameRenderer : MonoBehaviour
                 iconObject.GetComponent<SpriteRenderer>().sprite = GoalCellSprite;
             }
             instantiatedCells.Add(instantiatedCell);
+            
+            foreach (int toCell_idx in board[i].next_index)
+            {
+	        GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+	        LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
+                // 頂点の数
+		line.positionCount = 2;
+                line.SetPosition(0, new UnityEngine.Vector3(board[i].x, board[i].y, 0));
+		line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
+            }
         }
     }
 

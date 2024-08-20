@@ -36,13 +36,14 @@ public class GameController : MonoBehaviour
     private Stage stage;
     private int wave_num = 0;
     private Board board;
-    private int turn = 0;
-    private int multiplier = 1;
+    private BigInteger turn = 0;
+    private BigInteger multiplier = 3;
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
     private int stageNumber = 0;
     private Dictionary<int,List<List<double>>> probMatrices = new Dictionary<int, List<List<double>>>();
     private Inventory inventory;
+    private bool finalTurnUpdated;
     public GameState gameState;
     public List<string> stageNames;
 
@@ -89,13 +90,14 @@ public class GameController : MonoBehaviour
         if (wave_num < stage.waves.Count)
         {
             // 敵が全部倒れたとき
-            if (turn > stage.enemies[wave_num].turn)
+            if (finalTurnUpdated)
             {
                 turn = 0;
                 wave_num += 1;
                 if (wave_num < stage.waves.Count)
                 {
                     board = stage.waves[wave_num];
+                    finalTurnUpdated = false;
                 }
                 else 
                 {
@@ -105,6 +107,21 @@ public class GameController : MonoBehaviour
                     GameRenderer.Instance.DeleteEnemy();
                 }
                 popupSecondsRemaining = PopupSeconds;
+            }
+            else if (turn >= stage.enemies[wave_num].turn)
+            {
+                Enemy enemies = stage.enemies[wave_num];
+                MoveEnemiesByProbability(ref board, ref enemies, enemies.turn + multiplier - turn);
+                GameRenderer.Instance.UpdateEnemy(ref board);
+                if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
+                {
+                    GameRenderer.Instance.CreateWaveFailPopup();
+                    gameState = GameState.lost;
+                    // CancelInvoke("UpdateTurn");
+                }
+                UpdateCounter();
+                turn = stage.enemies[wave_num].turn + 1;
+                finalTurnUpdated = true;
             }
             else
             {
@@ -146,7 +163,7 @@ public class GameController : MonoBehaviour
                     if (turn >= 0)
                     {
                         Enemy enemies = stage.enemies[wave_num];
-                        MoveEnemiesByProbability(ref board, ref enemies);
+                        MoveEnemiesByProbability(ref board, ref enemies, multiplier);
                         GameRenderer.Instance.UpdateEnemy(ref board);
                         if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
                         {
@@ -163,14 +180,14 @@ public class GameController : MonoBehaviour
     }
 
     // 1回の更新で multiplier 分のターンが進む
-    void MoveEnemiesByProbability(ref Board board,ref Enemy enemy)
+    void MoveEnemiesByProbability(ref Board board,ref Enemy enemy, BigInteger mult)
     {
         List<BigInteger> enemiesCount = new List<BigInteger>(board.Count);
         for (int i = 0; i < board.Count; i++)
         {
             enemiesCount.Add(board[i].enemy.count);
         }
-        List<BigInteger> nextEnemiesCount = GameCalculater.NTurnsLater(probMatrices[enemy.id],enemiesCount, multiplier);
+        List<BigInteger> nextEnemiesCount = GameCalculater.NTurnsLater(probMatrices[enemy.id],enemiesCount, mult);
         for (int i = 0; i < board.Count; i++)
         {
             board[i].enemy.count = nextEnemiesCount[i];
@@ -223,7 +240,12 @@ public class GameController : MonoBehaviour
         GameRenderer.Instance.DisplayGoalCount(goalCount);
         GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
         GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
-        GameRenderer.Instance.DisplayTurnLeft(stage.enemies[wave_num].turn - turn);
+        BigInteger leftTurn = 0;
+        if (leftTurn < stage.enemies[wave_num].turn - turn)
+        {
+            leftTurn = stage.enemies[wave_num].turn - turn;
+        }
+        GameRenderer.Instance.DisplayTurnLeft(leftTurn);
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)
@@ -237,6 +259,7 @@ public class GameController : MonoBehaviour
         GameRenderer.Instance.InitStage(ref board, ref inventory, stage.backGroundNumber);
         probMatrices = new Dictionary<int, List<List<double>>>();
         popupSecondsRemaining = PopupSeconds;
+        finalTurnUpdated = false;
     }
 
     public void ShowBoard()

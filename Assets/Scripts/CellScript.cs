@@ -77,7 +77,7 @@ public class CellScript : MonoBehaviour
             if (GameController.Instance.tutorialState == TutorialState.beforeRightClickCell)
             {
                 GameController.Instance.tutorialState = TutorialState.beforeClickStartWaves;
-                GameRenderer.Instance.DisplayTutorial("Ok! Now you know how to place and remove trap! Press the play button when you are ready for enemy attack.");
+                GameRenderer.Instance.DisplayTutorial("Ok! Now you know how to place and remove trap! Press the play button when you are ready for enemy attack. The enemy will come from the black castle.");
             }
             usedCard.transform.parent.gameObject.SetActive(true);
             spriteRenderer.sprite = originaCellObject;

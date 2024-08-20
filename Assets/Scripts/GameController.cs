@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         tutorialState = TutorialState.beforeLeftClickCard;
-        GameRenderer.Instance.DisplayTutorial("Place trap cards on the board to defend the castle against enemy attacks. Left Click the trap card to Select trap.");
+        GameRenderer.Instance.DisplayTutorial("Place trap cards on the board to defend the white castle against enemy attacks. Left Click the trap card to Select trap.");
         InitStage(new Stage(stageNames[stageNumber]), Inventory.TestInventory());
     }
 

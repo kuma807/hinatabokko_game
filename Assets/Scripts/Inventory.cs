@@ -29,6 +29,15 @@ public class Inventory
         UnityEngine.Debug.Log(this);
     }
 
+    public static Inventory TutorialInventory()
+    {
+        Effect back1 = new BackEffect(1);
+        Effect back2 = new BackEffect(2);
+        Effect back3 = new BackEffect(3);
+        Effect backto = new BackStartEffect();
+        return new Inventory(new List<Effect>{back1, back2, back3, backto});
+    }
+
     public static Inventory Stage1Inventory()
     {
         Effect back1 = new BackEffect(1);

@@ -12,7 +12,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private List<GameObject> instantiatedLines = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
-	  private List<GameObject> instantiatedCards = new List<GameObject>();
+    private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveStartPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();

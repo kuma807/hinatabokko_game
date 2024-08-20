@@ -154,29 +154,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // 将来的にはEffectとかでこの処理を行うべき
-    void MoveEnemies(ref Board board)
-    {
-        if (board.Count >= 2) 
-        {
-            board[board.Count - 1].enemy.count += board[board.Count - 2].enemy.count;
-        }
-        for (int i = board.Count - 3; i >= 0; i--)
-        {
-            board[i + 1].enemy.count = board[i].enemy.count;
-        }
-        if (board.Count != 0)
-        {
-            board[0].enemy = new Enemy(0, stage.enemies[wave_num].dice, stage.enemies[wave_num].id, 5);   
-        }
-        string outputString = "Board";
-        for (int i = 0; i < board.Count; i++)
-        {
-            outputString += " " + board[i].enemy.count + ",";
-        }
-        Debug.Log(outputString);
-    }
-
     public void WavesStart()
     {
         gameState = GameState.enemyIncoming;
@@ -189,11 +166,16 @@ public class GameController : MonoBehaviour
         InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 
-    public void UseCardOnCell(Card card, GameObject cell)
+    public bool UseCardOnCell(Card card, GameObject cell)
     {
+        if (gameState != GameState.preparing)
+        {
+            return false;
+        }
         int cardIndex = GameRenderer.Instance.GetCardIndex(card);
         int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
         board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
+        return true;
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

@@ -62,6 +62,9 @@ public class GameRenderer : MonoBehaviour
         CreateCell(ref board);
         CreateCards(ref inventory);
         CreateGameBackGround(backGroundNumber);
+        GoalCount.text = "0";
+        MaxGoalCount.text = "0";
+        GoalPercent.text = "0%";
     }
 
     public void CreateCell(ref Board board)

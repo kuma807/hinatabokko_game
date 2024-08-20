@@ -135,6 +135,7 @@ public class GameController : MonoBehaviour
                         }
                         Enemy enemies = stage.enemies[wave_num];
                         GameRenderer.Instance.UpdateEnemy(ref board);
+                        UpdateCounter();
                     }
                     popupSecondsRemaining--;
                 }
@@ -151,15 +152,11 @@ public class GameController : MonoBehaviour
                             gameState = GameState.lost;
                             // CancelInvoke("UpdateTurn");
                         }
+                        UpdateCounter();
                     }
                     turn += multiplier;
                 }
             }
-            BigInteger goalCount = board.enemy_pass_count();
-            BigInteger maxGoalCount = stage.enemyPassLimits[wave_num];
-            GameRenderer.Instance.DisplayGoalCount(goalCount);
-            GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
-            GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
         }
     }
 
@@ -191,6 +188,7 @@ public class GameController : MonoBehaviour
             probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
         }
         GameRenderer.Instance.DeleteWaveClearPopup();
+        UpdateCounter();
         UpdateTurn();
         // InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
@@ -214,6 +212,15 @@ public class GameController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void UpdateCounter()
+    {
+        BigInteger goalCount = board.enemy_pass_count();
+        BigInteger maxGoalCount = stage.enemyPassLimits[wave_num];
+        GameRenderer.Instance.DisplayGoalCount(goalCount);
+        GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
+        GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

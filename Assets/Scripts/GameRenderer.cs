@@ -24,8 +24,8 @@ public class GameRenderer : MonoBehaviour
     public GameObject WaveClearPopup;
     public GameObject WaveFailPopup;
     public GameObject StageClearPopup;
+    public GameObject GameClearPopup;
     public TextMeshProUGUI GoalCount;
-
     
     private void Awake()
     {
@@ -39,6 +39,18 @@ public class GameRenderer : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void InitStage(ref Board board, ref Inventory inventory)
+    {
+        DeleteGameObjects(ref instantiatedEnemies);
+        DeleteGameObjects(ref instantiatedCells);
+        DeleteGameObjects(ref instantiatedCards);
+        DeleteGameObjects(ref instantiatedWaveClearPopupObjects);
+        DeleteGameObjects(ref instantiatedWaveFailPopupObjects);
+        DeleteGameObjects(ref instantiatedStageClearPopupObjects);
+        CreateCell(ref board);
+        CreateCards(ref inventory);
     }
 
     public void CreateCell(ref Board board)
@@ -64,9 +76,9 @@ public class GameRenderer : MonoBehaviour
 
     public void CreateCards(ref Inventory inventory)
     {
-        foreach (Card card in inventory.cards)
+        foreach (Effect cardEffect in inventory.cardEffects)
         {
-            GameObject instantiatedCard = Instantiate(cardObjects[card.effect.id], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+            GameObject instantiatedCard = Instantiate(cardObjects[cardEffect.id], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
             // instantiatedCardの子コンポーネントのtextを取得して，textの値を
@@ -204,8 +216,23 @@ public class GameRenderer : MonoBehaviour
         instantiatedStageClearPopupObjects.Clear();
     }
 
+    public void CreateGameClearPopup()
+    {
+        GameObject gameClearPopupInstance = Instantiate(GameClearPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+        gameClearPopupInstance.transform.SetParent(canvas.transform, false);
+    }
+
     public void DisplayGoalCount(BigInteger x)
     {
         GoalCount.text = x.ToString();
+    }
+
+    public void DeleteGameObjects(ref List<GameObject> gameObjects)
+    {
+        for (int i = 0; i < gameObjects.Count; i++)
+        {
+            Destroy(gameObjects[i]);
+        }
+        gameObjects.Clear();
     }
 }

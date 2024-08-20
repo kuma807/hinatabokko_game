@@ -53,7 +53,7 @@ public class Stage
                     new List<int>{1, 100, 1000, 10000, 0},//wave1の敵の初期位置 {cell1, cell2, cell3, cell4, cell5}
                     new List<int>{1, 100, 10, 10, 0},
                 };
-                enemyPassLimits = new List<BigInteger>{1000000, 10000};//敵の通過許容人数
+                enemyPassLimits = new List<BigInteger>{1000000, 100000};//敵の通過許容人数
                 break;
             default:
                 enemies = new List<Enemy>();

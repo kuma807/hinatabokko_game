@@ -7,6 +7,6 @@ public class WavesStartButton : MonoBehaviour
     public GameController gameController; 
     private void OnMouseDown()
     {
-        gameController.SetWavesStart(true);
+        gameController.WavesStart();
     }
 }

@@ -6,6 +6,15 @@ using Unity.VisualScripting;
 using System;
 using System.Numerics;
 
+public enum GameState
+{
+    preparing = 0,
+    enemyIncoming = 1,
+    lost = 2,
+    won = 3,
+    gameClear = 4
+}
+
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
@@ -25,33 +34,46 @@ public class GameController : MonoBehaviour
     }
 
     private Stage stage;
-    private bool wavesStart = false;
     private int wave_num = 0;
     private Board board;
     private int turn = 0;
     private int multiplier = 1;
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
-    public string stageName;
+    private GameState gameState;
+    private int stageNumber = 0;
     private Dictionary<int,List<List<double>>> probMatrices = new Dictionary<int, List<List<double>>>();
     private Inventory inventory;
+    public List<string> stageNames;
 
     // Start is called before the first frame update
     void Start()
     {
-        stage = new Stage(stageName);
-        
-        board = stage.waves[wave_num];
-        inventory = Inventory.TestInventory();
-        GameRenderer.Instance.CreateCell(ref board);
-        GameRenderer.Instance.CreateCards(ref inventory);
-        
+        InitStage(new Stage(stageNames[stageNumber]), Inventory.TestInventory());
     }
 
     // Update is called once per frame
     void Update()
     {
-        // ShowBoard();
+        Debug.Log(gameState);
+        if (gameState == GameState.won && Input.GetKeyDown(KeyCode.Return))
+        {
+            stageNumber += 1;
+            if (stageNumber == stageNames.Count)
+            {
+                gameState = GameState.gameClear;
+                GameRenderer.Instance.DeleteStageClearPopup();
+                GameRenderer.Instance.CreateGameClearPopup();
+            }
+            else
+            {
+                InitStage(new Stage(stageNames[stageNumber]), inventory);
+            }
+        }
+        else if (gameState == GameState.lost && Input.GetKeyDown(KeyCode.Return))
+        {
+            InitStage(new Stage(stageNames[stageNumber]), inventory);
+        }
     }
 
     // 1ターン進む（体力はmultiplier分減る）
@@ -70,6 +92,13 @@ public class GameController : MonoBehaviour
                 if (wave_num < stage.waves.Count)
                 {
                     board = stage.waves[wave_num];
+                }
+                else 
+                {
+                    gameState = GameState.won;
+                    GameRenderer.Instance.CreateStageClearPopup();
+                    CancelInvoke("UpdateTurn");
+                    GameRenderer.Instance.DeleteEnemy();
                 }
                 popupSecondsRemaining = PopupSeconds;
             }
@@ -101,19 +130,13 @@ public class GameController : MonoBehaviour
                         if (board.enemy_pass_count() > stage.enemyPassLimits[wave_num])
                         {
                             GameRenderer.Instance.CreateWaveFailPopup();
+                            gameState = GameState.lost;
                             CancelInvoke("UpdateTurn");
                         }
                     }
                     turn += multiplier;
                 }
             }
-        }
-        else
-        {
-            // TODO: 
-            GameRenderer.Instance.CreateStageClearPopup();
-            CancelInvoke("UpdateTurn");
-            GameRenderer.Instance.DeleteEnemy();
         }
     }
 
@@ -155,15 +178,15 @@ public class GameController : MonoBehaviour
         Debug.Log(outputString);
     }
 
-    public void SetWavesStart(bool _wavesStart)
+    public void WavesStart()
     {
+        gameState = GameState.enemyIncoming;
         foreach(var enemy in stage.enemies)
         {
             var e = enemy;
             probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
         }
         GameRenderer.Instance.DeleteWaveClearPopup();
-        wavesStart = _wavesStart;
         InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 
@@ -171,7 +194,20 @@ public class GameController : MonoBehaviour
     {
         int cardIndex = GameRenderer.Instance.GetCardIndex(card);
         int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
-        board[cellIndex].set_effect(inventory.cards[cardIndex].effect);
+        board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
+    }
+
+    public void InitStage(Stage _stage, Inventory _inventory)
+    {
+        turn = 0;
+        wave_num = 0;
+        stage = _stage;
+        board = stage.waves[wave_num];
+        inventory = _inventory;
+        gameState = GameState.preparing;
+        GameRenderer.Instance.InitStage(ref board, ref inventory);
+        probMatrices = new Dictionary<int, List<List<double>>>();
+        popupSecondsRemaining = PopupSeconds;
     }
 
     public void ShowBoard()

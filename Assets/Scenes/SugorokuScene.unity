@@ -485,6 +485,8 @@ MonoBehaviour:
     type: 3}
   StageClearPopup: {fileID: 4637373661119564601, guid: 6e2be447ef71041d6a0563e98a048d0a,
     type: 3}
+  GameClearPopup: {fileID: 4637373661119564601, guid: ffe25bf23eeaf42d78c46745c2a43bd7,
+    type: 3}
   GoalCount: {fileID: 1548228188}
 --- !u!4 &678478457
 Transform:
@@ -632,7 +634,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9348996c9d2ca4caf535eeb7ed23c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageName: test
+  stageNames:
+  - test
+  - test
 --- !u!4 &1289276356
 Transform:
   m_ObjectHideFlags: 0

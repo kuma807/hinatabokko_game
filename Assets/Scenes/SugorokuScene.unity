@@ -361,6 +361,8 @@ MonoBehaviour:
   - {fileID: 2938887379017640197, guid: 744e30a6f4ff64346b7369817dece6a5, type: 3}
   - {fileID: 2938887379017640197, guid: 773d03b7baf0af84eb691aa6f70b451f, type: 3}
   canvas: {fileID: 648293850}
+  WaveStartPopup: {fileID: 2229366105077324390, guid: 26dc8c118f23941929294f390d3539e5,
+    type: 3}
   WaveClearPopup: {fileID: 2229366105077324390, guid: 75ee0ce8424f94f9fb76fd4e01e5ff20,
     type: 3}
   WaveFailPopup: {fileID: 4637373661119564601, guid: 22b65aae178f8451bba8419db2310009,

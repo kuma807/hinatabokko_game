@@ -156,6 +156,10 @@ public class GameController : MonoBehaviour
 
     public void WavesStart()
     {
+        if (gameState != GameState.preparing)
+        {
+            return;
+        }
         gameState = GameState.enemyIncoming;
         foreach(var enemy in stage.enemies)
         {

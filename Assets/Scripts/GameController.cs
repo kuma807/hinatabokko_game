@@ -111,7 +111,7 @@ public class GameController : MonoBehaviour
         else
         {
             // TODO: 
-            // GameRenderer.Instance.CreateStageClearPopup();
+            GameRenderer.Instance.CreateStageClearPopup();
             CancelInvoke("UpdateTurn");
             GameRenderer.Instance.DeleteEnemy();
         }

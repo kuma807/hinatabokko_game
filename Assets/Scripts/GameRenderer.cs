@@ -14,6 +14,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
+    private List<GameObject> instantiatedStageClearPopupObjects = new List<GameObject>();
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
@@ -22,6 +23,7 @@ public class GameRenderer : MonoBehaviour
     public GameObject canvas;
     public GameObject WaveClearPopup;
     public GameObject WaveFailPopup;
+    public GameObject StageClearPopup;
     public TextMeshProUGUI GoalCount;
 
     
@@ -184,6 +186,22 @@ public class GameRenderer : MonoBehaviour
             Destroy(instantiatedWaveFailPopupObjects[i]);
         }
         instantiatedWaveFailPopupObjects.Clear();
+    }
+
+    public void CreateStageClearPopup()
+    {
+        GameObject stageClearPopupInstance = Instantiate(StageClearPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+        stageClearPopupInstance.transform.SetParent(canvas.transform, false);
+        instantiatedStageClearPopupObjects.Add(stageClearPopupInstance);
+    }
+
+    public void DeleteStageClearPopup()
+    {
+        for (int i = 0; i < instantiatedStageClearPopupObjects.Count; i++)
+        {
+            Destroy(instantiatedStageClearPopupObjects[i]);
+        }
+        instantiatedStageClearPopupObjects.Clear();
     }
 
     public void DisplayGoalCount(BigInteger x)

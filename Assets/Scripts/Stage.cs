@@ -85,6 +85,34 @@ public class Stage
                 // 背景の情報
                 backGroundNumber = 1;
                 break;
+            case "Stage1":
+                //そのステージの情報
+                int size = 10;
+                boardInfo = new List<CellInfo>(size);
+                for (int i = 0; i < size; i++)
+                {
+                    var prev_index = new List<int>();
+                    var next_index = new List<int>();
+                    if (i > 0) prev_index.Add(i - 1);
+                    if (i + 1 < size) next_index.Add(i + 1);
+                    boardInfo.Add(new CellInfo(-7f + 1.5f * i, 0, prev_index, next_index));
+                }
+                starts = new List<int>{0};
+                goals = new List<int>{size - 1};
+                //敵の情報
+                enemies = new List<Enemy>()
+                {
+                    new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
+                    new Enemy(100000, new List<int>{1}, 1, 5),// wave2の敵の情報
+                };
+                wavesEnemyInfo = new List<List<int>>{
+                    new List<int>{10000, 0, 0, 0, 0, 0, 0, 0, 0, 0},//wave1の敵の初期位置 {cell1, cell2, cell3, cell4, cell5}
+                    new List<int>{100000, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                };
+                enemyPassLimits = new List<BigInteger>{1000000, 100000};//敵の通過許容人数
+                // 背景の情報
+                backGroundNumber = 1;
+                break;
             default:
                 enemies = new List<Enemy>();
                 waves = new List<Board>();

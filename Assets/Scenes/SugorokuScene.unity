@@ -438,7 +438,8 @@ Transform:
   m_LocalPosition: {x: 0.10879224, y: -6.134728, z: -0.1034519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1582721505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1289276354
@@ -472,7 +473,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: 0
   stageNames:
-  - test
+  - Stage1
   - test2
 --- !u!4 &1289276356
 Transform:
@@ -764,7 +765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -138, y: 59.8}
+  m_AnchoredPosition: {x: -453, y: 171}
   m_SizeDelta: {x: 70.06, y: 17.88}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1582721502
@@ -828,12 +829,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1582721502}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.10879224, y: 6.134728, z: 0.1034519}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1186563449}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1634388338
 GameObject:
@@ -942,7 +943,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 1582721505}
   - {fileID: 1186563449}
   - {fileID: 648293854}
   - {fileID: 678478457}

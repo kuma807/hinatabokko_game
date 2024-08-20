@@ -21,7 +21,7 @@ public class Inventory
         Effect stop1 = new DeathEffect((float)0.5);
         Effect backStart = new BackStartEffect();
         Effect reverseEffect = new ReverseEffect();
-        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect});
+        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect });
     }
 
     public void DisplayInfo()
@@ -35,7 +35,7 @@ public class Inventory
         Effect back2 = new BackEffect(2);
         Effect back3 = new BackEffect(3);
         Effect backto = new BackStartEffect();
-        return new Inventory(new List<Effect>{back1, back2, back3, backto});
+        return new Inventory(new List<Effect> { back1, back2, back3, backto });
     }
 
     public static Inventory Stage1Inventory()
@@ -45,7 +45,7 @@ public class Inventory
         Effect stop1 = new DeathEffect((float)0.5);
         Effect backStart = new BackStartEffect();
         Effect reverseEffect = new ReverseEffect();
-        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect});
+        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect });
     }
     public static Inventory Stage2Inventory()
     {
@@ -54,7 +54,7 @@ public class Inventory
         Effect stop1 = new DeathEffect((float)0.5);
         Effect backStart = new BackStartEffect();
         Effect reverseEffect = new ReverseEffect();
-        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect});
+        return new Inventory(new List<Effect> { back1, back2, stop1, backStart, reverseEffect });
     }
 
     public static Inventory StageSomeoneInventory()
@@ -69,6 +69,20 @@ public class Inventory
         Effect stop2 = new StopEffect(GameCalculater.TEN(10));
         Effect backstart = new BackStartEffect();
         Effect backstart2 = new ReverseEffect();
-        return new Inventory(new List<Effect>{back3, back4, death1, death2, death3, death4, stop1, stop2, backstart, backstart2});
+        return new Inventory(new List<Effect> { back3, back4, death1, death2, death3, death4, stop1, stop2, backstart, backstart2 });
+    }
+
+    static public Inventory StageKaikeyInventory()
+    {
+        Effect back3 = new BackEffect(3);
+        Effect back5 = new BackEffect(5);
+        Effect back7 = new BackEffect(7);
+        Effect stop3 = new StopEffect(3);
+        Effect stop4 = new StopEffect(4);
+        Effect death1 = new DeathEffect((float)0.5);
+        Effect death2 = new DeathEffect((float)0.75);
+        Effect backStart = new BackStartEffect();
+        Effect reverseEffect = new ReverseEffect();
+        return new Inventory(new List<Effect> { back3, back5, back7, stop3, stop4, death1, death2, backStart, backStart, reverseEffect });
     }
 }

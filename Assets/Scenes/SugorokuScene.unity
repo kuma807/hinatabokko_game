@@ -1143,8 +1143,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObjects:
-  - {fileID: 8838440887609812320, guid: 88835aba1594a4a78bcf58a094a3c189, type: 3}
+  - {fileID: 9140175288208637101, guid: 32d5a5f7a1648410ba42430fedebf7b5, type: 3}
   - {fileID: 4371625213361373828, guid: 52506039cc9b543dab53fb28f257cf30, type: 3}
+  - {fileID: 8838440887609812320, guid: 88835aba1594a4a78bcf58a094a3c189, type: 3}
   lineObject: {fileID: 423795830686175537, guid: e77f584979e25a849861c28c62bc15af,
     type: 3}
   cellObject: {fileID: 7973762304906112321, guid: 45771245f3adb48838696eaad92c6637,
@@ -1852,8 +1853,9 @@ MonoBehaviour:
   gameState: 0
   stageNames:
   - Tutorial
-  - SomeoneStage
   - Stage2
+  - SomeoneStage
+  - KaikeyStage
   tutorialState: 0
 --- !u!4 &1289276356
 Transform:

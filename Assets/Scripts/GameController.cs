@@ -55,30 +55,36 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameState == GameState.won && Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
-            stageNumber += 1;
-            if (stageNumber == stageNames.Count)
+            if (gameState == GameState.won)
             {
-                gameState = GameState.gameClear;
-                GameRenderer.Instance.DeleteStageClearPopup();
-                GameRenderer.Instance.CreateGameClearPopup();
+                stageNumber += 1;
+                if (stageNumber == stageNames.Count)
+                {
+                    gameState = GameState.gameClear;
+                    GameRenderer.Instance.DeleteStageClearPopup();
+                    GameRenderer.Instance.CreateGameClearPopup();
+                }
+                else
+                {
+                    InitStage(new Stage(stageNames[stageNumber]), inventory);
+                }
             }
-            else
+            else if (gameState == GameState.lost)
             {
                 InitStage(new Stage(stageNames[stageNumber]), inventory);
             }
-        }
-        else if (gameState == GameState.lost && Input.GetKeyDown(KeyCode.Return))
-        {
-            InitStage(new Stage(stageNames[stageNumber]), inventory);
+            else if (gameState == GameState.enemyIncoming)
+            {
+                UpdateTurn();
+            }
         }
     }
 
     // 1ターン進む（体力はmultiplier分減る）
     void UpdateTurn()
     {
-        Debug.Log(popupSecondsRemaining);
         // wave がまだあるとき
         if (wave_num < stage.waves.Count)
         {
@@ -96,7 +102,7 @@ public class GameController : MonoBehaviour
                 {
                     gameState = GameState.won;
                     GameRenderer.Instance.CreateStageClearPopup();
-                    CancelInvoke("UpdateTurn");
+                    // CancelInvoke("UpdateTurn");
                     GameRenderer.Instance.DeleteEnemy();
                 }
                 popupSecondsRemaining = PopupSeconds;
@@ -108,12 +114,26 @@ public class GameController : MonoBehaviour
                 {
                     if (popupSecondsRemaining == PopupSeconds)
                     {
-                        GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
+                        if (wave_num == 0)
+                        {
+                            GameRenderer.Instance.CreateWaveStartPopup(stage.enemies[wave_num]);
+                        }
+                        else
+                        {
+                            GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
+                        }
                         GameRenderer.Instance.DeleteEnemy();
                     }
                     else if (popupSecondsRemaining == 1)
                     {
-                        GameRenderer.Instance.DeleteWaveClearPopup();
+                        if (wave_num == 0)
+                        {
+                            GameRenderer.Instance.DeleteWaveStartPopup();
+                        }
+                        else
+                        {
+                            GameRenderer.Instance.DeleteWaveClearPopup();
+                        }
                         Enemy enemies = stage.enemies[wave_num];
                         GameRenderer.Instance.UpdateEnemy(ref board);
                     }
@@ -121,7 +141,7 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    if (turn > 0)
+                    if (turn >= 0)
                     {
                         Enemy enemies = stage.enemies[wave_num];
                         MoveEnemiesByProbability(ref board, ref enemies);
@@ -130,7 +150,7 @@ public class GameController : MonoBehaviour
                         {
                             GameRenderer.Instance.CreateWaveFailPopup();
                             gameState = GameState.lost;
-                            CancelInvoke("UpdateTurn");
+                            // CancelInvoke("UpdateTurn");
                         }
                     }
                     turn += multiplier;
@@ -167,7 +187,8 @@ public class GameController : MonoBehaviour
             probMatrices.Add(enemy.id, GameCalculater.calc_probability(ref board, ref e));
         }
         GameRenderer.Instance.DeleteWaveClearPopup();
-        InvokeRepeating("UpdateTurn", 0, 1.0f);
+        UpdateTurn();
+        // InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 
     public void UseCardOnCell(Card card, GameObject cell)

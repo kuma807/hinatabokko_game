@@ -12,6 +12,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
     private List<GameObject> instantiatedCards = new List<GameObject>();
+    private List<GameObject> instantiatedWaveStartPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedStageClearPopupObjects = new List<GameObject>();
@@ -22,6 +23,7 @@ public class GameRenderer : MonoBehaviour
     public GameObject cardObject;
     public List<GameObject> cardObjects;
     public GameObject canvas;
+    public GameObject WaveStartPopup;
     public GameObject WaveClearPopup;
     public GameObject WaveFailPopup;
     public GameObject StageClearPopup;
@@ -158,6 +160,32 @@ public class GameRenderer : MonoBehaviour
     {
         DeleteEnemy();
         CreateEnemy(ref board);
+    }
+
+    public void CreateWaveStartPopup(Enemy enemy)
+    {
+        GameObject backGround = Instantiate(WaveStartPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+        backGround.transform.SetParent(canvas.transform, false);
+        TextMeshProUGUI[] textComponents = backGround.GetComponentsInChildren<TextMeshProUGUI>(true);
+        foreach (TextMeshProUGUI tmp in textComponents)
+        {
+            if (tmp.gameObject.name == "DiceFaces")
+            {
+                tmp.text = string.Join(", ", enemy.dice);
+                break;
+            }
+        }
+        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32,0), UnityEngine.Quaternion.identity);
+        enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
+        enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
+        backGround.transform.SetParent(canvas.transform);
+        instantiatedWaveStartPopupObjects.Add(backGround);
+        instantiatedWaveStartPopupObjects.Add(enemyInstance);
+    }
+
+    public void DeleteWaveStartPopup()
+    {
+        DeleteGameObjects(ref instantiatedWaveStartPopupObjects);
     }
 
     public void CreateWaveClearPopup(Enemy enemy)

@@ -92,8 +92,8 @@ public class BackEffect : StepOnEffect
 
 public class StopEffect : RollDiceEffect
 {
-    double stop;
-    public StopEffect(double _stop)
+    public BigInteger stop;
+    public StopEffect(BigInteger _stop)
     {
         this.id = 2;
         stop = _stop;
@@ -106,7 +106,7 @@ public class StopEffect : RollDiceEffect
         List<double> res = new List<double>(size);
         for (int i = 0; i < size; i++) res.Add(0);
 
-        res[cell.index] = stop / (stop + 1);
+        res[cell.index] = (double)stop / ((double)stop + 1);
         foreach (int next in enemy.dice)
         {
             List<double> step = board.StepN(cell.index, next);
@@ -114,7 +114,7 @@ public class StopEffect : RollDiceEffect
 
             for (int i = 0; i < size; i++)
             {
-                res[i] += step[i] / enemy.dice.Count * (1 / (stop + 1));
+                res[i] += step[i] / enemy.dice.Count * (1 / ((double)stop + 1));
             }
             //res[Math.Min(size - 1, cell.index + next)] += 1.0 / enemy.dice.Count * (1 / (stop + 1));
         }

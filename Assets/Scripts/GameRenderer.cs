@@ -36,7 +36,7 @@ public class GameRenderer : MonoBehaviour
     public TextMeshProUGUI MaxGoalCount;
     public TextMeshProUGUI GoalPercent;
     public TextMeshProUGUI TurnLeft;
-    
+
     private void Awake()
     {
         // シングルトンの設定
@@ -49,7 +49,7 @@ public class GameRenderer : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        CellIconScale = new List<double>{1.0, 2, 0.15, 0.125, 0.125, 0.15};
+        CellIconScale = new List<double> { 1.0, 2, 0.15, 0.125, 0.125, 0.15 };
     }
 
     public void InitStage(ref Board board, ref Inventory inventory, int backGroundNumber)
@@ -123,10 +123,22 @@ public class GameRenderer : MonoBehaviour
                     }
                 }
             }
+            if (cardEffect is StopEffect tmpEffect2)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Stop " + tmpEffect2.stop.ToString();
+                        break;
+                    }
+                }
+            }
         }
     }
 
-    public int GetCardIndex(Card card) 
+    public int GetCardIndex(Card card)
     {
         for (int i = 0; i < instantiatedCards.Count; i++)
         {
@@ -189,7 +201,7 @@ public class GameRenderer : MonoBehaviour
         }
     }
 
-    public void UpdateEnemy(ref Board board) 
+    public void UpdateEnemy(ref Board board)
     {
         DeleteEnemy();
         CreateEnemy(ref board);
@@ -208,7 +220,7 @@ public class GameRenderer : MonoBehaviour
                 break;
             }
         }
-        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32,0), UnityEngine.Quaternion.identity);
+        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32, 0), UnityEngine.Quaternion.identity);
         enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
         enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
         backGround.transform.SetParent(canvas.transform);
@@ -234,7 +246,7 @@ public class GameRenderer : MonoBehaviour
                 break;
             }
         }
-        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32,0), UnityEngine.Quaternion.identity);
+        GameObject enemyInstance = Instantiate(enemyObjects[enemy.id], new UnityEngine.Vector3((float)-3.64, (float)0.32, 0), UnityEngine.Quaternion.identity);
         enemyInstance.transform.localScale = new UnityEngine.Vector3(3, 3, 3);
         enemyInstance.GetComponent<Renderer>().sortingLayerName = "UI";
         backGround.transform.SetParent(canvas.transform);

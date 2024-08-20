@@ -1231,7 +1231,7 @@ MonoBehaviour:
   gameState: 0
   stageNames:
   - Tutorial
-  - Stage1
+  - SomeoneStage
   - Stage2
   tutorialState: 0
 --- !u!4 &1289276356

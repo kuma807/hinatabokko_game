@@ -88,7 +88,6 @@ public class GameController : MonoBehaviour
         // wave がまだあるとき
         if (wave_num < stage.waves.Count)
         {
-            GameRenderer.Instance.DisplayGoalCount(board.enemy_pass_count());
             // 敵が全部倒れたとき
             if (turn >= stage.enemies[wave_num].turn)
             {
@@ -156,6 +155,11 @@ public class GameController : MonoBehaviour
                     turn += multiplier;
                 }
             }
+            BigInteger goalCount = board.enemy_pass_count();
+            BigInteger maxGoalCount = stage.enemyPassLimits[wave_num];
+            GameRenderer.Instance.DisplayGoalCount(goalCount);
+            GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
+            GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
         }
     }
 

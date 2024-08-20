@@ -33,6 +33,8 @@ public class GameRenderer : MonoBehaviour
     public List<Sprite> CellIconSprites;
     public List<double> CellIconScale;
     public TextMeshProUGUI GoalCount;
+    public TextMeshProUGUI MaxGoalCount;
+    public TextMeshProUGUI GoalPercent;
     
     private void Awake()
     {
@@ -283,6 +285,16 @@ public class GameRenderer : MonoBehaviour
     public void DisplayGoalCount(BigInteger x)
     {
         GoalCount.text = x.ToString();
+    }
+
+    public void DisplayMaxGoalCount(BigInteger x)
+    {
+        MaxGoalCount.text = x.ToString();
+    }
+
+    public void DisplayGoalPercent(BigInteger x)
+    {
+        GoalPercent.text = x.ToString() + "%";
     }
 
     public void ChangeCellIcon(int cellIndex, int effectId)

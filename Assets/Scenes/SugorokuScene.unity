@@ -1230,6 +1230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: 0
   stageNames:
+  - Tutorial
   - Stage1
   - Stage2
   tutorialState: 0

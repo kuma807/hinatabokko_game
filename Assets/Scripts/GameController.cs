@@ -175,6 +175,7 @@ public class GameController : MonoBehaviour
         int cardIndex = GameRenderer.Instance.GetCardIndex(card);
         int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
         board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
+        GameRenderer.Instance.ChangeCellIcon(cellIndex, inventory.cardEffects[cardIndex].id);
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

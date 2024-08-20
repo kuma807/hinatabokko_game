@@ -8,7 +8,7 @@ public class CellScript : MonoBehaviour
     public Sprite originaCellObject;
     private GameObject obj;
     private SpriteRenderer spriteRenderer;
-    public Sprite BackSprite;
+    private Transform iconTransform;
     private Card usedCard;
     private GameObject popup;
 
@@ -17,7 +17,8 @@ public class CellScript : MonoBehaviour
     {
         obj = GameObject.Find("CardController");
         popup = transform.Find("Popup").gameObject;
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        iconTransform = transform.Find("Icon");
+        spriteRenderer = iconTransform.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -52,7 +53,6 @@ public class CellScript : MonoBehaviour
             selectedCard.RemoveHighlight();
             //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
             selectedCard.transform.parent.gameObject.SetActive(false);
-            spriteRenderer.sprite = BackSprite;
         }
     }
     private void OnRightClick()
@@ -62,10 +62,11 @@ public class CellScript : MonoBehaviour
             return;
         }
         Debug.Log("right clicked");
-        if (spriteRenderer.sprite == BackSprite)
+        if (spriteRenderer.sprite != originaCellObject)
         {
             usedCard.transform.parent.gameObject.SetActive(true);
             spriteRenderer.sprite = originaCellObject;
+            iconTransform.localScale = new Vector3((float)1.0, (float)1.0, (float)1.0);
         }
     }
 

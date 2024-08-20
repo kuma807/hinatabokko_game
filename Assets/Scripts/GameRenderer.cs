@@ -27,6 +27,8 @@ public class GameRenderer : MonoBehaviour
     public GameObject StageClearPopup;
     public GameObject GameClearPopup;
     public List<GameObject> BackGrounds;
+    public List<Sprite> CellIconSprites;
+    public List<double> CellIconScale;
     public TextMeshProUGUI GoalCount;
     
     private void Awake()
@@ -41,6 +43,7 @@ public class GameRenderer : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        CellIconScale = new List<double>{1.0, 2, 0.15, 0.125, 0.125, 0.15};
     }
 
     public void InitStage(ref Board board, ref Inventory inventory, int backGroundNumber)
@@ -237,6 +240,14 @@ public class GameRenderer : MonoBehaviour
     public void DisplayGoalCount(BigInteger x)
     {
         GoalCount.text = x.ToString();
+    }
+
+    public void ChangeCellIcon(int cellIndex, int effectId)
+    {
+        GameObject instantiatedCell = instantiatedCells[cellIndex];
+        SpriteRenderer spriteRenderer = instantiatedCell.transform.Find("Icon").GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = CellIconSprites[effectId];
+        spriteRenderer.transform.localScale = new UnityEngine.Vector3((float)CellIconScale[effectId], (float)CellIconScale[effectId], (float)CellIconScale[effectId]);
     }
 
     public void DeleteGameObjects(ref List<GameObject> gameObjects)

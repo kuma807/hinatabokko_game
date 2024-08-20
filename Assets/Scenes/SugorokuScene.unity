@@ -372,6 +372,14 @@ MonoBehaviour:
   BackGrounds:
   - {fileID: 3041517633553108620, guid: 857d3106e3aea4beabeed49b2fae6237, type: 3}
   - {fileID: 3041517633553108620, guid: f9d44a119246e4bcc89b3553dccc5e53, type: 3}
+  CellIconSprites:
+  - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - {fileID: 21300000, guid: 03aaf3242580a91499c71206ca215d4f, type: 3}
+  - {fileID: 21300000, guid: b2fad8bed68c54b8aaefe7f3032cf2f6, type: 3}
+  - {fileID: 21300000, guid: a975817a1053c4802ac283d893134bdd, type: 3}
+  - {fileID: 21300000, guid: f60a1f3ef5acf41a1bace1a61fc08d79, type: 3}
+  - {fileID: 21300000, guid: 5f4af61d6ed5b408f847f7ae19885e73, type: 3}
+  CellIconScale: []
   GoalCount: {fileID: 1548228188}
 --- !u!4 &678478457
 Transform:
@@ -462,6 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b9348996c9d2ca4caf535eeb7ed23c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameState: 0
   stageNames:
   - test
   - test2

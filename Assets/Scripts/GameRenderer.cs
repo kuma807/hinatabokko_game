@@ -10,8 +10,9 @@ using Unity.VisualScripting;
 public class GameRenderer : MonoBehaviour
 {
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
+    private List<GameObject> instantiatedLines = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
-    private List<GameObject> instantiatedCards = new List<GameObject>();
+	private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveStartPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
@@ -19,8 +20,9 @@ public class GameRenderer : MonoBehaviour
     private GameObject instantiatedBackGround;
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
+    public GameObject lineObject;
     public GameObject cellObject;
-    public GameObject cardObject;
+	public GameObject cardObject;
     public List<GameObject> cardObjects;
     public GameObject canvas;
     public GameObject WaveStartPopup;
@@ -63,11 +65,21 @@ public class GameRenderer : MonoBehaviour
 
     public void CreateCell(ref Board board)
     {
-        for (int i = 0; i < board.Count; i++)
-        {
-            GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
-            instantiatedCells.Add(instantiatedCell);
-        }
+		foreach (Cell cell in board)
+		{
+			GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(cell.x, cell.y, 0), UnityEngine.Quaternion.identity);
+			instantiatedCells.Add(instantiatedCell);
+            
+			foreach (int toCell_idx in cell.next_index)
+			{
+				GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+				LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
+				// 頂点の数
+				line.positionCount = 2;
+				line.SetPosition(0, new UnityEngine.Vector3(cell.x, cell.y, 0));
+				line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
+			}
+		}
     }
 
     public int GetCellIndex(GameObject cell)

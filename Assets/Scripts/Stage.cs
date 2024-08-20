@@ -80,7 +80,7 @@ public class Stage
                 goals = new List<int>{sizet - 1};
                 unchangeable = new List<int>{0, sizet - 1};
                 //敵の情報
-                BigInteger enemy1countt = GameCalculater.TEN(1);
+                BigInteger enemy1countt = GameCalculater.TEN(2);
                 enemies = new List<Enemy>()
                 {
                     new Enemy(enemy1countt, new List<int>{1, 2, 3}, 0, 3),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
@@ -94,7 +94,7 @@ public class Stage
                 };
                 wavesEnemyInfo[0][0] = enemy1countt;
                 // wavesEnemyInfo[1][0] = enemy2count1;
-                enemyPassLimits = new List<BigInteger>{5};//敵の通過許容人数
+                enemyPassLimits = new List<BigInteger>{1};//敵の通過許容人数
                 // 背景の情報
                 backGroundNumber = 0;
                 inventory = Inventory.TutorialInventory();
@@ -189,9 +189,15 @@ public class Stage
                 }
                 boardInfo[8].next_index.Add(15);
                 boardInfo[4].next_index.Add(11);
+                boardInfo[7].next_index.Add(11);
+                boardInfo[8].next_index.Add(11);
+                boardInfo[4].next_index.Add(11);
                 boardInfo[13].next_index.Add(22);
+                boardInfo[17].next_index.Add(22);
+                boardInfo[18].next_index.Add(22);
                 boardInfo[19].next_index.Add(21);
                 boardInfo[8].next_index.Add(23);
+                boardInfo[6].next_index.Add(28);
                 starts = new List<int>{0};
                 goals = new List<int>{sizes - 1};
                 unchangeable = new List<int>{sizes - 1};
@@ -201,7 +207,7 @@ public class Stage
                 enemies = new List<Enemy>()
                 {
                     new Enemy(enemy1count1, new List<int>{2, 3, 5, 7}, 0, GameCalculater.TEN(15)),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
-                    new Enemy(enemy2count1, new List<int>{1, 3, 4}, 1, GameCalculater.TEN(20)),// wave2の敵の情報
+                    new Enemy(enemy2count1, new List<int>{1, 3, 4, 5}, 1, GameCalculater.TEN(20)),// wave2の敵の情報
                 };
                 wavesEnemyInfo = new List<List<BigInteger>>(enemies.Count);
                 for (int i = 0; i < enemies.Count; i++)

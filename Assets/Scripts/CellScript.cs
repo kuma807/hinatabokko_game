@@ -43,6 +43,10 @@ public class CellScript : MonoBehaviour
         {
             return;
         }
+        if (spriteRenderer.sprite != originaCellObject)
+        {
+            return;
+        }
         CardController cardController = obj.GetComponent<CardController>();
         selectedCard = cardController.selectedCard;
         if (selectedCard != null)
@@ -61,7 +65,6 @@ public class CellScript : MonoBehaviour
         {
             return;
         }
-        Debug.Log("right clicked");
         if (spriteRenderer.sprite != originaCellObject)
         {
             usedCard.transform.parent.gameObject.SetActive(true);

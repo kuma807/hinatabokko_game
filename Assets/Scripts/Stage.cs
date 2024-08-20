@@ -30,6 +30,7 @@ public class Stage
     public Stage(string stageName)
     {
         List<CellInfo> boardInfo = new List<CellInfo>();
+        List<int> starts = new List<int>();
         List<int> goals = new List<int>();
         List<List<int>> wavesEnemyInfo = new List<List<int>>();
         switch (stageName)
@@ -38,11 +39,12 @@ public class Stage
                 //そのステージの情報
                 boardInfo = new List<CellInfo>{
                     new CellInfo(-2, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
-                    new CellInfo(0, 0, new List<int>{1}, new List<int>{2}),
-                    new CellInfo(2, 0, new List<int>{2}, new List<int>{3}),
-                    new CellInfo(4, 0, new List<int>{3}, new List<int>{4}),
-                    new CellInfo(6, 0, new List<int>{4}, new List<int>{}),
+                    new CellInfo(0, 0, new List<int>{0}, new List<int>{2}),
+                    new CellInfo(2, 0, new List<int>{1}, new List<int>{3}),
+                    new CellInfo(4, 0, new List<int>{2}, new List<int>{4}),
+                    new CellInfo(6, 0, new List<int>{3}, new List<int>{}),
                 };
+                starts = new List<int>{0};
                 goals = new List<int>{4};
                 //敵の情報
                 enemies = new List<Enemy>()
@@ -62,11 +64,12 @@ public class Stage
                 //そのステージの情報
                 boardInfo = new List<CellInfo>{
                     new CellInfo(-2, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
-                    new CellInfo(0, 0, new List<int>{1}, new List<int>{2}),
-                    new CellInfo(2, 0, new List<int>{2}, new List<int>{3}),
-                    new CellInfo(4, 0, new List<int>{3}, new List<int>{4}),
-                    new CellInfo(6, 1, new List<int>{4}, new List<int>{}),
+                    new CellInfo(0, 0, new List<int>{0}, new List<int>{2}),
+                    new CellInfo(2, 0, new List<int>{1}, new List<int>{3}),
+                    new CellInfo(4, 0, new List<int>{2}, new List<int>{4}),
+                    new CellInfo(6, 1, new List<int>{3}, new List<int>{}),
                 };
+                starts = new List<int>{0};
                 goals = new List<int>{4};
                 //敵の情報
                 enemies = new List<Enemy>()
@@ -93,6 +96,7 @@ public class Stage
         {
             Board waveBoard = new Board();
             waveBoard.SetGoal(goals);
+            waveBoard.SetStart(starts);
             for (int cellIndex = 0; cellIndex < boardInfo.Count; cellIndex++)
             {
                 waveBoard.Add(new Cell(boardInfo[cellIndex].x, boardInfo[cellIndex].y, new Enemy(wavesEnemyInfo[waveIndex][cellIndex], enemies[waveIndex].dice, enemies[waveIndex].id, enemies[waveIndex].turn), cellIndex, boardInfo[cellIndex].prev_index, boardInfo[cellIndex].next_index));

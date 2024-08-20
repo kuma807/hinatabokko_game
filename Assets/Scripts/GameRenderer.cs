@@ -35,6 +35,7 @@ public class GameRenderer : MonoBehaviour
     public TextMeshProUGUI GoalCount;
     public TextMeshProUGUI MaxGoalCount;
     public TextMeshProUGUI GoalPercent;
+    public TextMeshProUGUI TurnLeft;
     
     private void Awake()
     {
@@ -298,6 +299,11 @@ public class GameRenderer : MonoBehaviour
     public void DisplayGoalPercent(BigInteger x)
     {
         GoalPercent.text = x.ToString() + "%";
+    }
+
+    public void DisplayTurnLeft(BigInteger x)
+    {
+        TurnLeft.text = x.ToString();
     }
 
     public void ChangeCellIcon(int cellIndex, int effectId)

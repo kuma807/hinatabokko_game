@@ -89,7 +89,7 @@ public class GameController : MonoBehaviour
         if (wave_num < stage.waves.Count)
         {
             // 敵が全部倒れたとき
-            if (turn >= stage.enemies[wave_num].turn)
+            if (turn > stage.enemies[wave_num].turn)
             {
                 turn = 0;
                 wave_num += 1;
@@ -122,6 +122,7 @@ public class GameController : MonoBehaviour
                             GameRenderer.Instance.CreateWaveClearPopup(stage.enemies[wave_num]);
                         }
                         GameRenderer.Instance.DeleteEnemy();
+                        UpdateCounter();
                     }
                     else if (popupSecondsRemaining == 1)
                     {
@@ -136,6 +137,7 @@ public class GameController : MonoBehaviour
                         Enemy enemies = stage.enemies[wave_num];
                         GameRenderer.Instance.UpdateEnemy(ref board);
                         UpdateCounter();
+                        turn += multiplier;
                     }
                     popupSecondsRemaining--;
                 }
@@ -221,6 +223,7 @@ public class GameController : MonoBehaviour
         GameRenderer.Instance.DisplayGoalCount(goalCount);
         GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
         GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
+        GameRenderer.Instance.DisplayTurnLeft(stage.enemies[wave_num].turn - turn);
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

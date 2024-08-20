@@ -93,12 +93,12 @@ public class GameRenderer : MonoBehaviour
             
             foreach (int toCell_idx in board[i].next_index)
             {
-	        GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
-	        LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
+                GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+                LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
                 // 頂点の数
-		line.positionCount = 2;
+                line.positionCount = 2;
                 line.SetPosition(0, new UnityEngine.Vector3(board[i].x, board[i].y, 0));
-		line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
+                line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
             }
         }
     }

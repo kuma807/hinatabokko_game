@@ -22,7 +22,9 @@ public enum TutorialState
     beforeRightClickCell = 2,
     beforeClickStartWaves = 3,
     beforePushEnter = 4,
-    tutorialEnd = 5,
+    beforePushFastForward = 5,
+    beforePushSlowDown = 6,
+    tutorialEnd = 7,
 }
 
 public class GameController : MonoBehaviour
@@ -268,7 +270,7 @@ public class GameController : MonoBehaviour
         BigInteger maxGoalCount = stage.enemyPassLimits[wave_num];
         GameRenderer.Instance.DisplayGoalCount(goalCount);
         GameRenderer.Instance.DisplayMaxGoalCount(maxGoalCount);
-        GameRenderer.Instance.DisplayGoalPercent((BigInteger)(goalCount * 100 / maxGoalCount));
+        GameRenderer.Instance.DisplayGoalPercent((BigInteger)(100 - goalCount * 100 / maxGoalCount));
         BigInteger leftTurn = 0;
         if (leftTurn < stage.enemies[wave_num].turn - turn)
         {

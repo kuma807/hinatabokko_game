@@ -72,6 +72,7 @@ public class GameRenderer : MonoBehaviour
         GoalCount.text = "0";
         MaxGoalCount.text = "0";
         GoalPercent.text = "0%";
+        GoalPercent.color = Color.black;
     }
 
     public void CreateCell(ref Board board)
@@ -352,6 +353,14 @@ public class GameRenderer : MonoBehaviour
     public void DisplayGoalPercent(BigInteger x)
     {
         GoalPercent.text = x.ToString() + "%";
+        if (x < 0)
+        {
+            GoalPercent.color = Color.red;
+        }
+        if (x >= 0)
+        {
+            GoalPercent.color = Color.black;
+        }
     }
 
     public void DisplayTurnLeft(BigInteger x)

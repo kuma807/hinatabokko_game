@@ -40,6 +40,7 @@ public class GameRenderer : MonoBehaviour
     public TextMeshProUGUI GoalPercent;
     public TextMeshProUGUI TurnLeft;
     public TextMeshProUGUI TutorialText;
+    public TextMeshProUGUI MultiplierText;
     
     private void Awake()
     {
@@ -361,6 +362,11 @@ public class GameRenderer : MonoBehaviour
     public void DisplayTutorial(string s)
     {
         TutorialText.text = s;
+    }
+
+    public void DisplayMultiplier(BigInteger x)
+    {
+        MultiplierText.text = x.ToString();
     }
 
     public void ChangeCellIcon(int cellIndex, int effectId)

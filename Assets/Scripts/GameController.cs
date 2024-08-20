@@ -277,6 +277,25 @@ public class GameController : MonoBehaviour
         GameRenderer.Instance.DisplayTurnLeft(leftTurn);
     }
 
+    public void FastForward()
+    {
+        multiplier *= 10;
+        if (multiplier > GameCalculater.TEN(30))
+        {
+            multiplier = GameCalculater.TEN(30);
+        }
+        GameRenderer.Instance.DisplayMultiplier(multiplier);
+    }
+
+    public void SlowDown()
+    {
+        if (multiplier != 1)
+        {
+            multiplier /= 10;
+        }
+        GameRenderer.Instance.DisplayMultiplier(multiplier);
+    }
+
     public void InitStage(Stage _stage, Inventory _inventory)
     {
         turn = 0;

@@ -84,6 +84,11 @@ public class GameController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            if (tutorialState == TutorialState.beforePushEnter)
+            {
+                tutorialState = TutorialState.beforePushFastForward;
+                GameRenderer.Instance.DisplayTutorial("If there is too many turn press fastforward button to fastforward the battle.");
+            }
             if (gameState == GameState.won)
             {
                 stageNumber += 1;
@@ -228,7 +233,7 @@ public class GameController : MonoBehaviour
         }
         if (GameController.Instance.tutorialState == TutorialState.beforeClickStartWaves)
         {
-            GameController.Instance.tutorialState = TutorialState.tutorialEnd;
+            GameController.Instance.tutorialState = TutorialState.beforePushEnter;
             GameRenderer.Instance.DisplayTutorial("Press Enter to proceed to the next turn.");
         }
         gameState = GameState.enemyIncoming;
@@ -287,6 +292,11 @@ public class GameController : MonoBehaviour
             multiplier = GameCalculater.TEN(30);
         }
         GameRenderer.Instance.DisplayMultiplier(multiplier);
+        if (tutorialState == TutorialState.beforePushFastForward)
+        {
+            tutorialState = TutorialState.beforePushSlowDown;
+            GameRenderer.Instance.DisplayTutorial("To slow down the battle press slow down button.");
+        }
     }
 
     public void SlowDown()
@@ -296,6 +306,10 @@ public class GameController : MonoBehaviour
             multiplier /= 10;
         }
         GameRenderer.Instance.DisplayMultiplier(multiplier);
+        if (tutorialState == TutorialState.beforePushSlowDown)
+        {
+            tutorialState = TutorialState.tutorialEnd;
+        }
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

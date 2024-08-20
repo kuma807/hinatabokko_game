@@ -38,24 +38,29 @@ public class CellScript : MonoBehaviour
     }
     private void OnLeftClick()
     {
+        if (GameController.Instance.gameState != GameState.preparing)
+        {
+            return;
+        }
         CardController cardController = obj.GetComponent<CardController>();
         selectedCard = cardController.selectedCard;
         if (selectedCard != null)
         {
-            bool cardUsed = GameController.Instance.UseCardOnCell(selectedCard, gameObject);
-            if (cardUsed)
-            {
-                usedCard = selectedCard;
-                cardController.RemoveSelect();
-                selectedCard.RemoveHighlight();
-                //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
-                selectedCard.transform.parent.gameObject.SetActive(false);
-                spriteRenderer.sprite = BackSprite;
-            }
+            GameController.Instance.UseCardOnCell(selectedCard, gameObject);
+            usedCard = selectedCard;
+            cardController.RemoveSelect();
+            selectedCard.RemoveHighlight();
+            //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
+            selectedCard.transform.parent.gameObject.SetActive(false);
+            spriteRenderer.sprite = BackSprite;
         }
     }
     private void OnRightClick()
     {
+        if (GameController.Instance.gameState != GameState.preparing)
+        {
+            return;
+        }
         Debug.Log("right clicked");
         if (spriteRenderer.sprite == BackSprite)
         {

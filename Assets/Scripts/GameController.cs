@@ -40,10 +40,10 @@ public class GameController : MonoBehaviour
     private int multiplier = 1;
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
-    private GameState gameState;
     private int stageNumber = 0;
     private Dictionary<int,List<List<double>>> probMatrices = new Dictionary<int, List<List<double>>>();
     private Inventory inventory;
+    public GameState gameState;
     public List<string> stageNames;
 
     // Start is called before the first frame update
@@ -170,16 +170,11 @@ public class GameController : MonoBehaviour
         InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 
-    public bool UseCardOnCell(Card card, GameObject cell)
+    public void UseCardOnCell(Card card, GameObject cell)
     {
-        if (gameState != GameState.preparing)
-        {
-            return false;
-        }
         int cardIndex = GameRenderer.Instance.GetCardIndex(card);
         int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
         board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
-        return true;
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

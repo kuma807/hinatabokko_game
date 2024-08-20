@@ -15,6 +15,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedStageClearPopupObjects = new List<GameObject>();
+    private GameObject instantiatedBackGround;
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
     public GameObject cellObject;
@@ -25,6 +26,7 @@ public class GameRenderer : MonoBehaviour
     public GameObject WaveFailPopup;
     public GameObject StageClearPopup;
     public GameObject GameClearPopup;
+    public List<GameObject> BackGrounds;
     public TextMeshProUGUI GoalCount;
     
     private void Awake()
@@ -41,7 +43,7 @@ public class GameRenderer : MonoBehaviour
         }
     }
 
-    public void InitStage(ref Board board, ref Inventory inventory)
+    public void InitStage(ref Board board, ref Inventory inventory, int backGroundNumber)
     {
         DeleteGameObjects(ref instantiatedEnemies);
         DeleteGameObjects(ref instantiatedCells);
@@ -51,6 +53,7 @@ public class GameRenderer : MonoBehaviour
         DeleteGameObjects(ref instantiatedStageClearPopupObjects);
         CreateCell(ref board);
         CreateCards(ref inventory);
+        CreateGameBackGround(backGroundNumber);
     }
 
     public void CreateCell(ref Board board)
@@ -220,6 +223,15 @@ public class GameRenderer : MonoBehaviour
     {
         GameObject gameClearPopupInstance = Instantiate(GameClearPopup, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
         gameClearPopupInstance.transform.SetParent(canvas.transform, false);
+    }
+
+    public void CreateGameBackGround(int backGroundNumber)
+    {
+        if (instantiatedBackGround != null)
+        {
+            Destroy(instantiatedBackGround);
+        }
+        instantiatedBackGround = Instantiate(BackGrounds[backGroundNumber], new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
     }
 
     public void DisplayGoalCount(BigInteger x)

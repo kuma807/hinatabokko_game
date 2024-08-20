@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gameState);
+        Debug.Log(stage.backGroundNumber);
         if (gameState == GameState.won && Input.GetKeyDown(KeyCode.Return))
         {
             stageNumber += 1;
@@ -205,7 +205,7 @@ public class GameController : MonoBehaviour
         board = stage.waves[wave_num];
         inventory = _inventory;
         gameState = GameState.preparing;
-        GameRenderer.Instance.InitStage(ref board, ref inventory);
+        GameRenderer.Instance.InitStage(ref board, ref inventory, stage.backGroundNumber);
         probMatrices = new Dictionary<int, List<List<double>>>();
         popupSecondsRemaining = PopupSeconds;
     }

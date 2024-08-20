@@ -25,6 +25,7 @@ public class Stage
     public List<Enemy> enemies;
     public List<BigInteger> enemyPassLimits;
     public List<Board> waves;
+    public int backGroundNumber;
     
     public Stage(string stageName)
     {
@@ -54,6 +55,32 @@ public class Stage
                     new List<int>{1, 100, 10, 10, 0},
                 };
                 enemyPassLimits = new List<BigInteger>{1000000, 100000};//敵の通過許容人数
+                // 背景の情報
+                backGroundNumber = 0;
+                break;
+            case "test2":
+                //そのステージの情報
+                boardInfo = new List<CellInfo>{
+                    new CellInfo(-2, 0, new List<int>{}, new List<int>{1}),// (x, y, prev_index, next_index)
+                    new CellInfo(0, 0, new List<int>{1}, new List<int>{2}),
+                    new CellInfo(2, 0, new List<int>{2}, new List<int>{3}),
+                    new CellInfo(4, 0, new List<int>{3}, new List<int>{4}),
+                    new CellInfo(6, 1, new List<int>{4}, new List<int>{}),
+                };
+                goals = new List<int>{4};
+                //敵の情報
+                enemies = new List<Enemy>()
+                {
+                    new Enemy(10000, new List<int>{1, 2, 3, 4, 5, 6}, 0, 3),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
+                    new Enemy(5, new List<int>{1}, 1, 5),// wave2の敵の情報
+                };
+                wavesEnemyInfo = new List<List<int>>{
+                    new List<int>{1, 100, 1000, 10000, 0},//wave1の敵の初期位置 {cell1, cell2, cell3, cell4, cell5}
+                    new List<int>{1, 100, 10, 10, 0},
+                };
+                enemyPassLimits = new List<BigInteger>{1000000, 100000};//敵の通過許容人数
+                // 背景の情報
+                backGroundNumber = 1;
                 break;
             default:
                 enemies = new List<Enemy>();

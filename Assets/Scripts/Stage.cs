@@ -174,6 +174,48 @@ public class Stage
                 backGroundNumber = 1;
                 inventory = Inventory.Stage2Inventory();
                 break;
+            case "SomeoneStage":
+                //そのステージの情報
+                int sizes = 30;
+                boardInfo = new List<CellInfo>(sizes);
+                for (int i = 0; i < sizes; i++)
+                {
+                    var prev_index = new List<int>();
+                    var next_index = new List<int>();
+                    if (i > 0) prev_index.Add(i - 1);
+                    if (i + 1 < sizes) next_index.Add(i + 1);
+                    if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                }
+                boardInfo[8].next_index.Add(15);
+                boardInfo[4].next_index.Add(11);
+                boardInfo[13].next_index.Add(22);
+                boardInfo[19].next_index.Add(21);
+                boardInfo[8].next_index.Add(23);
+                starts = new List<int>{0};
+                goals = new List<int>{sizes - 1};
+                unchangeable = new List<int>{sizes - 1};
+                //敵の情報
+                BigInteger enemy1counts = GameCalculater.TEN(15);
+                BigInteger enemy2counts = GameCalculater.TEN(20);
+                enemies = new List<Enemy>()
+                {
+                    new Enemy(enemy1count1, new List<int>{2, 3, 5, 7}, 0, GameCalculater.TEN(15)),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
+                    new Enemy(enemy2count1, new List<int>{1, 3, 4}, 1, GameCalculater.TEN(20)),// wave2の敵の情報
+                };
+                wavesEnemyInfo = new List<List<BigInteger>>(enemies.Count);
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    wavesEnemyInfo.Add(new List<BigInteger>(sizes));
+                    for (int j = 0; j < sizes; j++) wavesEnemyInfo[i].Add(0);
+                };
+                wavesEnemyInfo[0][0] = enemy1counts;
+                wavesEnemyInfo[1][0] = enemy2counts;
+                enemyPassLimits = new List<BigInteger>{enemy1counts / 10, enemy2counts / 10};//敵の通過許容人数
+                // 背景の情報
+                backGroundNumber = 0;
+                inventory = Inventory.StageSomeoneInventory();
+                break;
             default:
                 enemies = new List<Enemy>();
                 waves = new List<Board>();

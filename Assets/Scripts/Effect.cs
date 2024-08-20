@@ -166,6 +166,7 @@ public class ReverseEffect: RollDiceEffect
     public override List<double> effect(Board board, Cell cell, Enemy enemy) 
     {
         var res = new List<double>(board.Count);
+        for (int i = 0; i < board.Count; i++) res.Add(0);
         foreach (int next in enemy.dice)
         {
             var nres = board.BackN(cell.index, next);

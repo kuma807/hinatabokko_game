@@ -222,7 +222,105 @@ public class Stage
                 backGroundNumber = 0;
                 inventory = Inventory.StageSomeoneInventory();
                 break;
-            default:
+			case "KaikeyStage":
+				//そのステージの情報
+				int sizeExt = 20;
+				boardInfo = new List<CellInfo>(sizeExt);
+
+				List<List<int>> edges = new List<List<int>>();
+				edges.Add(new List<int> { 0, 2 });
+				edges.Add(new List<int> { 1, 3 });
+				edges.Add(new List<int> { 2, 4 });
+				edges.Add(new List<int> { 3, 4 });
+				edges.Add(new List<int> { 4, 5 });
+				edges.Add(new List<int> { 4, 6 });
+				edges.Add(new List<int> { 5, 7 });
+				edges.Add(new List<int> { 5, 8 });
+				edges.Add(new List<int> { 6, 7 });
+				edges.Add(new List<int> { 7, 9 });
+				edges.Add(new List<int> { 8, 9 });
+				edges.Add(new List<int> { 8, 10 });
+				edges.Add(new List<int> { 9, 12 });
+				edges.Add(new List<int> { 10, 11 });
+				edges.Add(new List<int> { 10, 12 });
+				edges.Add(new List<int> { 11, 15 });
+				edges.Add(new List<int> { 11, 16 });
+				edges.Add(new List<int> { 12, 13 });
+				edges.Add(new List<int> { 12, 16 });
+				edges.Add(new List<int> { 13, 14 });
+				edges.Add(new List<int> { 11, 15 });
+				edges.Add(new List<int> { 11, 16 });
+				edges.Add(new List<int> { 15, 17 });
+				edges.Add(new List<int> { 16, 17 });
+				edges.Add(new List<int> { 17, 18 });
+				edges.Add(new List<int> { 17, 19 });
+
+				List<List<int>> prevs = new List<List<int>>();
+				List<List<int>> nexts = new List<List<int>>();
+				for (int i = 0; i < sizeExt; i++)
+				{
+					prevs.Add(new List<int>());
+					nexts.Add(new List<int>());
+				}
+
+				foreach (List<int> lst in edges)
+				{
+					prevs[lst[0]].Add(lst[1]);
+					nexts[lst[1]].Add(lst[0]);
+				}
+
+				boardInfo.Add(new CellInfo(-8f, 3f, prevs[0], nexts[0]));
+				boardInfo.Add(new CellInfo(-8f, -3f, prevs[1], nexts[1]));
+				boardInfo.Add(new CellInfo(-6.2f, 2f, prevs[2], nexts[2]));
+				boardInfo.Add(new CellInfo(-6.2f, -2f, prevs[3], nexts[3]));
+				boardInfo.Add(new CellInfo(-4.4f, 0f, prevs[4], nexts[4]));
+				boardInfo.Add(new CellInfo(-2.6f, 1f, prevs[5], nexts[5]));
+				boardInfo.Add(new CellInfo(-2.6f, -3f, prevs[6], nexts[6]));
+				boardInfo.Add(new CellInfo(-0.8f, -1f, prevs[7], nexts[7]));
+				boardInfo.Add(new CellInfo(-0.8f, 2f, prevs[8], nexts[8]));
+				boardInfo.Add(new CellInfo(1f, 0f, prevs[9], nexts[9]));
+				boardInfo.Add(new CellInfo(1f, 3f, prevs[10], nexts[10]));
+				boardInfo.Add(new CellInfo(2.8f, 4f, prevs[11], nexts[11]));
+				boardInfo.Add(new CellInfo(2.8f, 1f, prevs[12], nexts[12]));
+				boardInfo.Add(new CellInfo(2.8f, -2f, prevs[13], nexts[13]));
+				boardInfo.Add(new CellInfo(4.6f, -4f, prevs[14], nexts[14]));
+				boardInfo.Add(new CellInfo(4.6f, 3f, prevs[15], nexts[15]));
+				boardInfo.Add(new CellInfo(4.6f, 1f, prevs[16], nexts[16]));
+				boardInfo.Add(new CellInfo(6.4f, 2f, prevs[17], nexts[17]));
+				boardInfo.Add(new CellInfo(8.2f, 4f, prevs[18], nexts[18]));
+				boardInfo.Add(new CellInfo(8.2f, 0f, prevs[19], nexts[19]));
+
+				starts = new List<int> { 0, 1 };
+				goals = new List<int> { 14, 18, 19 };
+				unchangeable = new List<int> { 0, 1, 14, 18, 19 };
+				//敵の情報
+				BigInteger enemy1count = GameCalculater.TEN(3);
+				BigInteger enemy2count = GameCalculater.TEN(6);
+				BigInteger enemy3count = GameCalculater.TEN(7);
+				enemies = new List<Enemy>()
+				{
+					new Enemy(enemy1count, new List<int>{1, 2, 3, 4}, 0, 3),// wave1の敵の情報 (enemyNum, Dice, enemyId, enemyの体力)
+                    new Enemy(enemy2count, new List<int>{1, 3, 5}, 1, 4),// wave2の敵の情報
+                    new Enemy(enemy3count, new List<int>{1, 2, 4, 6}, 2, 7),// wave2の敵の情報
+                };
+				wavesEnemyInfo = new List<List<BigInteger>>(enemies.Count);
+				for (int i = 0; i < enemies.Count; i++)
+				{
+					wavesEnemyInfo.Add(new List<BigInteger>(sizeExt));
+					for (int j = 0; j < sizeExt; j++) wavesEnemyInfo[i].Add(0);
+				};
+				wavesEnemyInfo[0][0] = enemy1count / 2;
+				wavesEnemyInfo[0][1] = enemy1count / 2;
+				wavesEnemyInfo[1][0] = enemy2count / 2;
+				wavesEnemyInfo[1][1] = enemy2count / 2;
+				wavesEnemyInfo[2][0] = enemy3count / 2;
+				wavesEnemyInfo[2][1] = enemy3count / 2;
+				enemyPassLimits = new List<BigInteger> { enemy1count / 20, enemy2count / 10, enemy3count / 5 };//敵の通過許容人数
+																											   // 背景の情報
+				backGroundNumber = 1;
+				inventory = Inventory.StageKaikeyInventory();
+				break;
+			default:
                 enemies = new List<Enemy>();
                 waves = new List<Board>();
                 enemyPassLimits = new List<BigInteger>();

@@ -16,7 +16,7 @@ public class Inventory
 
     static public Inventory TestInventory()
     {
-        Effect back1 = new BackStartEffect();
+        Effect back1 = new BackEffect(1);
         Effect back2 = new StopEffect(2);
         Effect stop1 = new DeathEffect((float)0.5);
         Effect backStart = new BackStartEffect();

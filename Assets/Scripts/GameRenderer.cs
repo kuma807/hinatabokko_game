@@ -12,7 +12,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedEnemies = new List<GameObject>();
     private List<GameObject> instantiatedLines = new List<GameObject>();
     private List<GameObject> instantiatedCells = new List<GameObject>();
-	private List<GameObject> instantiatedCards = new List<GameObject>();
+	  private List<GameObject> instantiatedCards = new List<GameObject>();
     private List<GameObject> instantiatedWaveStartPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
@@ -22,7 +22,8 @@ public class GameRenderer : MonoBehaviour
     public List<GameObject> enemyObjects;
     public GameObject lineObject;
     public GameObject cellObject;
-	public GameObject cardObject;
+    public Sprite GoalCellSprite;
+    public GameObject cardObject;
     public List<GameObject> cardObjects;
     public GameObject canvas;
     public GameObject WaveStartPopup;
@@ -34,6 +35,9 @@ public class GameRenderer : MonoBehaviour
     public List<Sprite> CellIconSprites;
     public List<double> CellIconScale;
     public TextMeshProUGUI GoalCount;
+    public TextMeshProUGUI MaxGoalCount;
+    public TextMeshProUGUI GoalPercent;
+    public TextMeshProUGUI TurnLeft;
     
     private void Awake()
     {
@@ -61,25 +65,42 @@ public class GameRenderer : MonoBehaviour
         CreateCell(ref board);
         CreateCards(ref inventory);
         CreateGameBackGround(backGroundNumber);
+        GoalCount.text = "0";
+        MaxGoalCount.text = "0";
+        GoalPercent.text = "0%";
     }
 
     public void CreateCell(ref Board board)
     {
-		foreach (Cell cell in board)
-		{
-			GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(cell.x, cell.y, 0), UnityEngine.Quaternion.identity);
-			instantiatedCells.Add(instantiatedCell);
+        for (int i = 0; i < board.Count; i++)
+        {
+            bool isGoal = false;
+            for (int j = 0; j < board.goal.Count; j++)
+            {
+                if (i == board.goal[j])
+                {
+                    isGoal = true;
+                }
+            }
+            GameObject instantiatedCell = Instantiate(cellObject, new UnityEngine.Vector3(board[i].x, board[i].y, 0), UnityEngine.Quaternion.identity);
+            if (isGoal)
+            {
+                Transform iconObject = instantiatedCell.transform.Find("Icon");
+                iconObject.localScale = new UnityEngine.Vector3(0.15f, 0.15f, 0.15f);
+                iconObject.GetComponent<SpriteRenderer>().sprite = GoalCellSprite;
+            }
+            instantiatedCells.Add(instantiatedCell);
             
-			foreach (int toCell_idx in cell.next_index)
-			{
-				GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
-				LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
-				// 頂点の数
-				line.positionCount = 2;
-				line.SetPosition(0, new UnityEngine.Vector3(cell.x, cell.y, 0));
-				line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
-			}
-		}
+            foreach (int toCell_idx in board[i].next_index)
+			      {
+				        GameObject instantiatedLine = Instantiate(lineObject, new UnityEngine.Vector3(0, 0, 0), UnityEngine.Quaternion.identity);
+				        LineRenderer line = instantiatedLine.GetComponent<LineRenderer>();
+                // 頂点の数
+				        line.positionCount = 2;
+				        line.SetPosition(0, new UnityEngine.Vector3(board[i].x, board[i].y, 0));
+				        line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
+			      }
+        }
     }
 
     public int GetCellIndex(GameObject cell)
@@ -102,6 +123,42 @@ public class GameRenderer : MonoBehaviour
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
             // instantiatedCardの子コンポーネントのtextを取得して，textの値を
+            if (cardEffect is BackEffect tmpEffect)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Back " + tmpEffect.back.ToString();
+                        break;
+                    }
+                }
+            }
+            if (cardEffect is StopEffect tmpEffect2)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Stop " + tmpEffect2.stop.ToString();
+                        break;
+                    }
+                }
+            }
+            if (cardEffect is DeathEffect tmpeffect3)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Death " + (tmpeffect3.death_probability * 100).ToString() + "%";
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -280,6 +337,21 @@ public class GameRenderer : MonoBehaviour
     public void DisplayGoalCount(BigInteger x)
     {
         GoalCount.text = x.ToString();
+    }
+
+    public void DisplayMaxGoalCount(BigInteger x)
+    {
+        MaxGoalCount.text = x.ToString();
+    }
+
+    public void DisplayGoalPercent(BigInteger x)
+    {
+        GoalPercent.text = x.ToString() + "%";
+    }
+
+    public void DisplayTurnLeft(BigInteger x)
+    {
+        TurnLeft.text = x.ToString();
     }
 
     public void ChangeCellIcon(int cellIndex, int effectId)

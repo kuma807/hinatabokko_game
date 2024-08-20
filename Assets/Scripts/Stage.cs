@@ -32,6 +32,7 @@ public class Stage
         List<CellInfo> boardInfo = new List<CellInfo>();
         List<int> starts = new List<int>();
         List<int> goals = new List<int>();
+        List<int> unchangeable = new List<int>();
         List<List<BigInteger>> wavesEnemyInfo = new List<List<BigInteger>>();
         switch (stageName)
         {
@@ -46,6 +47,7 @@ public class Stage
                 };
                 starts = new List<int>{0};
                 goals = new List<int>{4};
+                unchangeable = new List<int>{4};
                 //敵の情報
                 enemies = new List<Enemy>()
                 {
@@ -71,6 +73,7 @@ public class Stage
                 };
                 starts = new List<int>{0};
                 goals = new List<int>{4};
+                unchangeable = new List<int>{4};
                 //敵の情報
                 enemies = new List<Enemy>()
                 {
@@ -95,10 +98,12 @@ public class Stage
                     var next_index = new List<int>();
                     if (i > 0) prev_index.Add(i - 1);
                     if (i + 1 < size1) next_index.Add(i + 1);
-                    boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                 }
                 starts = new List<int>{0};
                 goals = new List<int>{size1 - 1};
+                unchangeable = new List<int>{0, size1 - 1};
                 //敵の情報
                 BigInteger enemy1count1 = GameCalculater.TEN(5);
                 BigInteger enemy2count1 = GameCalculater.TEN(6);
@@ -129,10 +134,12 @@ public class Stage
                     var next_index = new List<int>();
                     if (i > 0) prev_index.Add(i - 1);
                     if (i + 1 < size2) next_index.Add(i + 1);
-                    boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    if (((i / 10) & 1) == 0) boardInfo.Add(new CellInfo(-7f + (1.5f * (i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
+                    else boardInfo.Add(new CellInfo(-7f + (1.5f * (9 - i % 10)), 2.5f - (i / 10) * 1.5f, prev_index, next_index));
                 }
                 starts = new List<int>{0};
                 goals = new List<int>{size2 - 1};
+                unchangeable = new List<int>{size2 - 1};
                 //敵の情報
                 BigInteger enemy1count2 = GameCalculater.TEN(5);
                 BigInteger enemy2count2 = GameCalculater.TEN(6);
@@ -165,6 +172,7 @@ public class Stage
             Board waveBoard = new Board();
             waveBoard.SetGoal(goals);
             waveBoard.SetStart(starts);
+            waveBoard.SetUnchangealbe(unchangeable);
             for (int cellIndex = 0; cellIndex < boardInfo.Count; cellIndex++)
             {
                 waveBoard.Add(new Cell(boardInfo[cellIndex].x, boardInfo[cellIndex].y, new Enemy(wavesEnemyInfo[waveIndex][cellIndex], enemies[waveIndex].dice, enemies[waveIndex].id, enemies[waveIndex].turn), cellIndex, boardInfo[cellIndex].prev_index, boardInfo[cellIndex].next_index));

@@ -51,12 +51,14 @@ public class CellScript : MonoBehaviour
         selectedCard = cardController.selectedCard;
         if (selectedCard != null)
         {
-            GameController.Instance.UseCardOnCell(selectedCard, gameObject);
-            usedCard = selectedCard;
-            cardController.RemoveSelect();
-            selectedCard.RemoveHighlight();
-            //selectedCard.gameObject.GetComponentInParent<CanvasRenderer>();
-            selectedCard.transform.parent.gameObject.SetActive(false);
+            bool useCard = GameController.Instance.UseCardOnCell(selectedCard, gameObject);
+            if (useCard)
+            {
+                usedCard = selectedCard;
+                cardController.RemoveSelect();
+                selectedCard.RemoveHighlight();
+                selectedCard.transform.parent.gameObject.SetActive(false);
+            }
         }
     }
     private void OnRightClick()

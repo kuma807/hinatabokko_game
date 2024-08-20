@@ -51,6 +51,11 @@ public class CellScript : MonoBehaviour
         selectedCard = cardController.selectedCard;
         if (selectedCard != null)
         {
+            if (GameController.Instance.tutorialState == TutorialState.beforeLeftClickCell)
+            {
+                GameController.Instance.tutorialState = TutorialState.beforeRightClickCell;
+                GameRenderer.Instance.DisplayTutorial("Great! You successfully placed trap card on the board! Now try removing the trap, right Click the cell with trap to retrieve trap card.");
+            }
             bool useCard = GameController.Instance.UseCardOnCell(selectedCard, gameObject);
             if (useCard)
             {
@@ -69,6 +74,11 @@ public class CellScript : MonoBehaviour
         }
         if (spriteRenderer.sprite != originaCellObject)
         {
+            if (GameController.Instance.tutorialState == TutorialState.beforeRightClickCell)
+            {
+                GameController.Instance.tutorialState = TutorialState.beforeClickStartWaves;
+                GameRenderer.Instance.DisplayTutorial("Ok! Now you know how to place and remove trap! Press the play button when you are ready for enemy attack.");
+            }
             usedCard.transform.parent.gameObject.SetActive(true);
             spriteRenderer.sprite = originaCellObject;
             iconTransform.localScale = new Vector3((float)1.0, (float)1.0, (float)1.0);

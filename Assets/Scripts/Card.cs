@@ -35,6 +35,11 @@ public class Card : MonoBehaviour
     private void OnMouseDown()
     {
         CardController.Instance.HighlightCard(this);
+        if (GameController.Instance.tutorialState == TutorialState.beforeLeftClickCard)
+        {
+            GameController.Instance.tutorialState = TutorialState.beforeLeftClickCell;
+            GameRenderer.Instance.DisplayTutorial("Left Click the cell to place trap.");
+        }
     }
      public void ApplyHighlight()
     {

@@ -15,6 +15,16 @@ public enum GameState
     gameClear = 4
 }
 
+public enum TutorialState
+{
+    beforeLeftClickCard = 0,
+    beforeLeftClickCell = 1,
+    beforeRightClickCell = 2,
+    beforeClickStartWaves = 3,
+    beforePushEnter = 4,
+    tutorialEnd = 5,
+}
+
 public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
@@ -37,7 +47,7 @@ public class GameController : MonoBehaviour
     private int wave_num = 0;
     private Board board;
     private BigInteger turn = 0;
-    private BigInteger multiplier = 3;
+    private BigInteger multiplier = 1;
     private const int PopupSeconds = 2;
     private int popupSecondsRemaining = PopupSeconds;
     private int stageNumber = 0;
@@ -46,16 +56,30 @@ public class GameController : MonoBehaviour
     private bool finalTurnUpdated;
     public GameState gameState;
     public List<string> stageNames;
+    public TutorialState tutorialState;
 
     // Start is called before the first frame update
     void Start()
     {
+        tutorialState = TutorialState.beforeLeftClickCard;
+        GameRenderer.Instance.DisplayTutorial("Place trap cards on the board to defend the castle against enemy attacks. Left Click the trap card to Select trap.");
         InitStage(new Stage(stageNames[stageNumber]), Inventory.TestInventory());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (tutorialState == TutorialState.tutorialEnd)
+        {
+            if (gameState == GameState.preparing)
+            {
+                GameRenderer.Instance.DisplayTutorial("Press play button to start enemy attack.");
+            }
+            if (gameState == GameState.enemyIncoming) 
+            {
+                GameRenderer.Instance.DisplayTutorial("Press enter to proceed to the next turn.");
+            }
+        }
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (gameState == GameState.won)
@@ -200,6 +224,11 @@ public class GameController : MonoBehaviour
         {
             return;
         }
+        if (GameController.Instance.tutorialState == TutorialState.beforeClickStartWaves)
+        {
+            GameController.Instance.tutorialState = TutorialState.tutorialEnd;
+            GameRenderer.Instance.DisplayTutorial("Press Enter to proceed to the next turn.");
+        }
         gameState = GameState.enemyIncoming;
         foreach(var enemy in stage.enemies)
         {
@@ -260,6 +289,10 @@ public class GameController : MonoBehaviour
         probMatrices = new Dictionary<int, List<List<double>>>();
         popupSecondsRemaining = PopupSeconds;
         finalTurnUpdated = false;
+        if (tutorialState == TutorialState.tutorialEnd)
+        {
+            GameRenderer.Instance.DisplayTutorial("Press play button to start enemy attack.");
+        }
     }
 
     public void ShowBoard()

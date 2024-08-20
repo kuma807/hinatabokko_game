@@ -95,7 +95,7 @@ public class GameRenderer : MonoBehaviour
     {
         for (int i = 0; i < instantiatedCards.Count; i++)
         {
-            if (instantiatedCards[i].transform.position == card.transform.position)
+            if (card.transform.parent.gameObject == instantiatedCards[i])
             {
                 return i;
             }

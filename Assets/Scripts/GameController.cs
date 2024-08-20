@@ -55,7 +55,6 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(stage.backGroundNumber);
         if (gameState == GameState.won && Input.GetKeyDown(KeyCode.Return))
         {
             stageNumber += 1;

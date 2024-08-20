@@ -21,6 +21,11 @@ public class Board: List<Cell>
     {
         goal = _goal;
     }
+
+    public void SetStart(List<int> _start)
+    {
+        start = _start;
+    }
     
     public List<double> StepN(int index,int n)
     {

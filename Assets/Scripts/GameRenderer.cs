@@ -17,6 +17,7 @@ public class GameRenderer : MonoBehaviour
     private List<GameObject> instantiatedWaveClearPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedWaveFailPopupObjects = new List<GameObject>();
     private List<GameObject> instantiatedStageClearPopupObjects = new List<GameObject>();
+    private List<GameObject> instantiatedLineObjects = new List<GameObject>();
     private GameObject instantiatedBackGround;
     public static GameRenderer Instance { get; private set; }
     public List<GameObject> enemyObjects;
@@ -62,6 +63,7 @@ public class GameRenderer : MonoBehaviour
         DeleteGameObjects(ref instantiatedWaveClearPopupObjects);
         DeleteGameObjects(ref instantiatedWaveFailPopupObjects);
         DeleteGameObjects(ref instantiatedStageClearPopupObjects);
+        DeleteGameObjects(ref instantiatedLineObjects);
         CreateCell(ref board);
         CreateCards(ref inventory);
         CreateGameBackGround(backGroundNumber);
@@ -99,6 +101,7 @@ public class GameRenderer : MonoBehaviour
                 line.positionCount = 2;
                 line.SetPosition(0, new UnityEngine.Vector3(board[i].x, board[i].y, 0));
                 line.SetPosition(1, new UnityEngine.Vector3(board[toCell_idx].x, board[toCell_idx].y, 0));
+                instantiatedLineObjects.Add(instantiatedLine);
             }
         }
     }

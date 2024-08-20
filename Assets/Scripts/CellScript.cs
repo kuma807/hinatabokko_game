@@ -51,14 +51,14 @@ public class CellScript : MonoBehaviour
         selectedCard = cardController.selectedCard;
         if (selectedCard != null)
         {
-            if (GameController.Instance.tutorialState == TutorialState.beforeLeftClickCell)
-            {
-                GameController.Instance.tutorialState = TutorialState.beforeRightClickCell;
-                GameRenderer.Instance.DisplayTutorial("Great! You successfully placed trap card on the board! Now try removing the trap, right Click the cell with trap to retrieve trap card.");
-            }
             bool useCard = GameController.Instance.UseCardOnCell(selectedCard, gameObject);
             if (useCard)
             {
+                if (GameController.Instance.tutorialState == TutorialState.beforeLeftClickCell)
+                {
+                    GameController.Instance.tutorialState = TutorialState.beforeRightClickCell;
+                    GameRenderer.Instance.DisplayTutorial("Great! You successfully placed trap card on the board! Now try removing the trap, right Click the cell with trap to retrieve trap card.");
+                }
                 usedCard = selectedCard;
                 cardController.RemoveSelect();
                 selectedCard.RemoveHighlight();

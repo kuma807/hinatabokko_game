@@ -125,7 +125,7 @@ public class StopEffect : RollDiceEffect
 
 public class DeathEffect : StepOnEffect
 {
-    double death_probability;
+    public double death_probability;
     // enemy will be dead w.p. death_probability, be alive w.p. 1 - death_probability
     public DeathEffect(double _death_probability)
     {

@@ -135,6 +135,18 @@ public class GameRenderer : MonoBehaviour
                     }
                 }
             }
+            if (cardEffect is DeathEffect tmpeffect3)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Death " + (tmpeffect3.death_probability * 100).ToString() + "%";
+                        break;
+                    }
+                }
+            }
         }
     }
 

@@ -191,12 +191,25 @@ public class GameController : MonoBehaviour
         // InvokeRepeating("UpdateTurn", 0, 1.0f);
     }
 
-    public void UseCardOnCell(Card card, GameObject cell)
+    public bool UseCardOnCell(Card card, GameObject cell)
     {
         int cardIndex = GameRenderer.Instance.GetCardIndex(card);
         int cellIndex = GameRenderer.Instance.GetCellIndex(cell);
-        board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
-        GameRenderer.Instance.ChangeCellIcon(cellIndex, inventory.cardEffects[cardIndex].id);
+        bool cellUnchangeable = false;
+        for (int i = 0; i < board.unchangeable.Count; i++)
+        {
+            if (board.unchangeable[i] == cellIndex)
+            {
+                cellUnchangeable = true;
+            }
+        }
+        if (!cellUnchangeable)
+        {
+            board[cellIndex].set_effect(inventory.cardEffects[cardIndex]);
+            GameRenderer.Instance.ChangeCellIcon(cellIndex, inventory.cardEffects[cardIndex].id);
+            return true;
+        }
+        return false;
     }
 
     public void InitStage(Stage _stage, Inventory _inventory)

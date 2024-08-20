@@ -7,10 +7,11 @@ using UnityEngine;
 [System.Diagnostics.DebuggerDisplay("cells: {cells}")]
 public class Board: List<Cell>
 {
-    public List<int> start, goal;
+    public List<int> start, goal, unchangeable;
     public Board() {
         start = new List<int>{};
         goal = new List<int>{};
+        unchangeable = new List<int>{};
     }
     public void DisplayInfo()
     {
@@ -25,6 +26,11 @@ public class Board: List<Cell>
     public void SetStart(List<int> _start)
     {
         start = _start;
+    }
+
+    public void SetUnchangealbe(List<int> _unchangeable)
+    {
+        unchangeable = _unchangeable;
     }
     
     public List<double> StepN(int index,int n)

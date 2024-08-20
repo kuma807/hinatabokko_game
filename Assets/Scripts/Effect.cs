@@ -52,7 +52,7 @@ public class NullRollDiceEffect : RollDiceEffect
 
 public class BackEffect : StepOnEffect
 {
-    int back;
+    public int back;
     public BackEffect(int _back)
     {
         this.id = 1;

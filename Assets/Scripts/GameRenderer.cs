@@ -111,6 +111,30 @@ public class GameRenderer : MonoBehaviour
             instantiatedCard.transform.SetParent(canvas.transform.Find("Inventory"), false);
             instantiatedCards.Add(instantiatedCard);
             // instantiatedCardの子コンポーネントのtextを取得して，textの値を
+            if (cardEffect is BackEffect tmpEffect)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Back " + tmpEffect.back.ToString();
+                        break;
+                    }
+                }
+            }
+            if (cardEffect is StopEffect tmpEffect2)
+            {
+                Text[] textComponents = instantiatedCard.GetComponentsInChildren<Text>(true);
+                foreach (Text tmp in textComponents)
+                {
+                    if (tmp.gameObject.name == "Text (Legacy)")
+                    {
+                        tmp.text = "Stop " + tmpEffect2.stop.ToString();
+                        break;
+                    }
+                }
+            }
         }
     }
 

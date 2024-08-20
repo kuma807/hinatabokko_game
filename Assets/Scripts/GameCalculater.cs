@@ -118,4 +118,10 @@ public static class GameCalculater
         var powMat = updateTurn(probMat, turn);
         return Act(ref powMat, x);
     }
+
+    public static BigInteger TEN(int n)
+    {
+        if (n == 0) return 1;
+        else return 10 * TEN(n - 1);
+    }
 }

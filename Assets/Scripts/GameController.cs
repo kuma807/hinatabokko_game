@@ -254,7 +254,7 @@ public class GameController : MonoBehaviour
         wave_num = 0;
         stage = _stage;
         board = stage.waves[wave_num];
-        inventory = _inventory;
+        inventory = _stage.inventory;
         gameState = GameState.preparing;
         GameRenderer.Instance.InitStage(ref board, ref inventory, stage.backGroundNumber);
         probMatrices = new Dictionary<int, List<List<double>>>();

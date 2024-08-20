@@ -26,6 +26,7 @@ public class Stage
     public List<BigInteger> enemyPassLimits;
     public List<Board> waves;
     public int backGroundNumber;
+    public Inventory inventory;
     
     public Stage(string stageName)
     {
@@ -123,6 +124,7 @@ public class Stage
                 enemyPassLimits = new List<BigInteger>{enemy1count1 / 20, enemy2count1 / 20};//敵の通過許容人数
                 // 背景の情報
                 backGroundNumber = 1;
+                inventory = Inventory.Stage1Inventory();
                 break;
             case "Stage2":
                 //そのステージの情報
@@ -159,6 +161,7 @@ public class Stage
                 enemyPassLimits = new List<BigInteger>{enemy1count2 / 20, enemy2count2 / 20};//敵の通過許容人数
                 // 背景の情報
                 backGroundNumber = 1;
+                inventory = Inventory.Stage2Inventory();
                 break;
             default:
                 enemies = new List<Enemy>();

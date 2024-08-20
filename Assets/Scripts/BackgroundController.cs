@@ -4,9 +4,8 @@ public class BackgroundController : MonoBehaviour
 {
     [SerializeField] private GameObject stage1Prefab;
     [SerializeField] private GameObject stage2Prefab;
-    [SerializeField] private GameObject stage3Prefab;
-
-    private int _currentStage;
+    // ここをコードから変更可能にする(SerializeField外してもいいかも)
+    [SerializeField] private int _currentStage;
 
     private GameObject backgroundPrefab;
     private Transform cameraTransform;
@@ -16,7 +15,6 @@ public class BackgroundController : MonoBehaviour
 
     void Start()
     {
-        this._currentStage = 2;
         ChangeStageBackGround(this._currentStage);
     }
 
@@ -33,10 +31,6 @@ public class BackgroundController : MonoBehaviour
             case 2:
                 backgroundPrefab = stage2Prefab;
                 Debug.Log("IMa Stage2");
-                break;
-            case 3:
-                backgroundPrefab = stage3Prefab;
-                Debug.Log("IMa Stage3");
                 break;
             default:
                 Debug.LogWarning("Invalid stage selected. Defaulting to stage 1.");
